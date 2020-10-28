@@ -1,5 +1,5 @@
-import logo from './logo_transparent.png';
-import logoLightSmall from './logo_transparent_light_small.png';
+import logoLightSmall from './assets/logo_transparent_light_small.png';
+import { Switch, Route, Link } from "react-router-dom";
 import './App.css';
 import {
   AppBar,
@@ -12,8 +12,9 @@ import {
 } from '@material-ui/core'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import React from 'react';
-
-
+import Price from "./components/Price";
+import AddPrice from "./components/AddPrice";
+import Prediction from "./components/Prediction";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,14 +70,14 @@ function App() {
       <div className={classes.root}>
         <AppBar position="static" style={{background: '#1C4954'}}>
           <Toolbar>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-              <img src={logoLightSmall} alt='Logo' height='60'></img>
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" to='/' component={Link}>
+              <img src={logoLightSmall} alt='Logo' height='60'/>
             </IconButton>
             <div className={classes.demo2}>
               <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example">
-                <StyledTab label="Workflows" />
-                <StyledTab label="Datasets" />
-                <StyledTab label="Connections" />
+                <StyledTab label="Price" to='/price' component={Link}/>
+                <StyledTab label="Add Price" to='/addprice' component={Link}/>
+                <StyledTab label="Prediction" to='/prediction' component={Link}/>
               </StyledTabs>
               <Typography className={classes.padding} />
             </div>
@@ -84,23 +85,13 @@ function App() {
           </Toolbar>
         </AppBar>
       </div>
-      <header className="App-header">
-        <img src={logo} alt='Logo' height='300'></img>
-        <Typography variant='h5'>
-          Welcome to CS 411 Final Project - All4Cats.
-        </Typography>
-        <a
-          className="App-link"
-          href="https://wiki.illinois.edu/wiki/display/CS411AAFA20/All4Cat"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Our Homepage
-        </a>
-      </header>
-      <Button variant="contained" color="primary">
-        Hello World
-      </Button>
+      <div>
+        <Switch>
+          <Route exact path={["/", "/price"]} component={Price} />
+          <Route path="/addprice" component={AddPrice} />
+          <Route path="/prediction" component={Prediction} />
+        </Switch>
+      </div>
     </div>
   );
 }
