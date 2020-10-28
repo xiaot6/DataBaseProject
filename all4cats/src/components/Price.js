@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import logo from '../assets/logo_transparent.png';
 import {Typography, Button, TextField} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
 import PriceDataService from "../services/price.service";
 
 import { Link } from "react-router-dom";
@@ -10,7 +9,7 @@ import { Link } from "react-router-dom";
 export default class Price extends Component {
     constructor(props) {
         super(props);
-        this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
+        this.onChangeSaveTitle = this.onChangeSaveTitle.bind(this);
         this.retrieveTutorials = this.retrieveTutorials.bind(this);
         this.refreshList = this.refreshList.bind(this);
         this.setActiveTutorial = this.setActiveTutorial.bind(this);
@@ -18,10 +17,10 @@ export default class Price extends Component {
         this.searchTitle = this.searchTitle.bind(this);
     
         this.state = {
+          titleForSearch: "",
           tutorials: [],
           currentTutorial: null,
           currentIndex: -1,
-          searchTitle: ""
         };
     }
 
@@ -29,16 +28,16 @@ export default class Price extends Component {
     this.retrieveTutorials();
     }
 
-    onChangeSearchTitle(e) {
-    const searchTitle = e.target.value;
+    onChangeSaveTitle(e) {
+        const searchTitle = e.target.value;
 
-    this.setState({
-        searchTitle: searchTitle
-    });
+        this.setState({
+            titleForSearch: searchTitle
+        });
     }
 
     retrieveTutorials() {
-    PriceDataService.getAll()
+        PriceDataService.getAll()
         .then(response => {
         this.setState({
             tutorials: response.data
@@ -51,18 +50,19 @@ export default class Price extends Component {
     }
 
     refreshList() {
-    this.retrieveTutorials();
-    this.setState({
-        currentTutorial: null,
-        currentIndex: -1
-    });
+        this.retrieveTutorials();
+        this.setState({
+            currentTutorial: null,
+            currentIndex: -1
+        });
     }
 
     setActiveTutorial(tutorial, index) {
-    this.setState({
-        currentTutorial: tutorial,
-        currentIndex: index
-    });
+        console.log("set active");
+        this.setState({
+            currentTutorial: tutorial,
+            currentIndex: index
+        });
     }
 
     removeAllTutorials() {
@@ -78,7 +78,7 @@ export default class Price extends Component {
 
     searchTitle() {
         console.log("clicked");
-        PriceDataService.findByTitle(this.state.searchTitle)
+        PriceDataService.findByTitle(this.state.titleForSearch)
             .then(response => {
             this.setState({
                 tutorials: response.data
@@ -91,18 +91,30 @@ export default class Price extends Component {
     }
 
     render() {
-        const { searchTitle, tutorials, currentTutorial, currentIndex } = this.state;
+        // const { titleForSearch, tutorials, currentTutorial, currentIndex } = this.state;
         return (
             <div>
                 <h2>
                     This is Price Page
                 </h2>
                 <form noValidate autoComplete="off">
-                    <TextField id="standard-basic" label="Standard" value={searchTitle} onChange={this.onChangeSearchTitle}/>
+                    {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
+                    <TextField id="standard-basic" label="Title" value={this.state.titleForSearch} onChange={this.onChangeSaveTitle}/>
                 </form>
                 <Button onClick={this.searchTitle}>
                     Search
                 </Button>
+                <ul className="list-group">
+                    {this.state.tutorials &&
+                    this.state.tutorials.map((tutorial, index) => (
+                        <li
+                            onClick={() => this.setActiveTutorial(tutorial, index)}
+                            key={index}
+                        >
+                        {tutorial.title}, {tutorial.description}
+                        </li>
+                    ))}
+                </ul>
                 <header>
                     <img src={logo} alt='Logo' height='300'></img>
                     <Typography variant='h5'>
