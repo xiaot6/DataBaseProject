@@ -1,4 +1,6 @@
 import logo from './logo.png';
+import {Dropdown} from 'react-bulma-components';
+import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './App.css';
 
 function App() {
@@ -18,6 +20,14 @@ function App() {
           Homepage
         </a>
       </header>
+      <Dropdown>
+        <Dropdown.Item value="item" >
+          Dropdown item
+        </Dropdown.Item>
+        <Dropdown.Item value="other" >
+          Dropdown item
+        </Dropdown.Item>
+      </Dropdown>
     </div>
   );
 }
