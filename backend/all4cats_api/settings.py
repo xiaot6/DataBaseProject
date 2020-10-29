@@ -90,10 +90,10 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'testdb',
+        'NAME': 'all4catsDB',
         'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'caomeiwei990316!',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
