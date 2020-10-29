@@ -36,3 +36,14 @@ class University(models.Model):
         default='')
 
 
+class House(models.Model):
+    house_id = models.CharField(
+        max_length=200,
+        blank=False,
+        default='',
+        primary_key=True)
+    price = models.FloatField()
+    company = models.CharField(max_length=200, blank=False, default='')
+    address = models.CharField(max_length=200, blank=False, default='')
+    number_of_rooms = models.IntegerField()
+    floor_plan = models.CharField(max_length=200, blank=False, default='')
