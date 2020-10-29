@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import logo from '../assets/logo_transparent.png';
-import {Typography, Button, TextField} from '@material-ui/core'
+import {Typography, Button, TextField, List, ListItem, ListItemText} from '@material-ui/core'
 import PriceDataService from "../services/price.service";
 
 import { Link } from "react-router-dom";
-
 
 export default class Price extends Component {
     constructor(props) {
@@ -90,13 +89,14 @@ export default class Price extends Component {
         });
     }
 
+
     render() {
         // const { titleForSearch, tutorials, currentTutorial, currentIndex } = this.state;
         return (
             <div>
-                <h2>
-                    This is Price Page
-                </h2>
+                <h4>
+                    This is Price / Index Page
+                </h4>
                 <form noValidate autoComplete="off">
                     {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
                     <TextField id="standard-basic" label="Title" value={this.state.titleForSearch} onChange={this.onChangeSaveTitle}/>
@@ -104,17 +104,21 @@ export default class Price extends Component {
                 <Button onClick={this.searchTitle}>
                     Search
                 </Button>
-                <ul className="list-group">
-                    {this.state.tutorials &&
-                    this.state.tutorials.map((tutorial, index) => (
-                        <li
-                            onClick={() => this.setActiveTutorial(tutorial, index)}
-                            key={index}
-                        >
-                        {tutorial.title}, {tutorial.description}
-                        </li>
-                    ))}
-                </ul>
+                <div style={{display:"flex", justifyContent: "center"}}>
+                    <div style={{width: 360}}>
+                        <List component="nav">
+                            {this.state.tutorials &&
+                            this.state.tutorials.map((tutorial, index) => (
+                                <ListItem button
+                                    onClick={() => this.setActiveTutorial(tutorial, index)}
+                                    key={index}
+                                >
+                                    <ListItemText>{tutorial.title} {tutorial.description}</ListItemText>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </div>
+                </div>
                 <header>
                     <img src={logo} alt='Logo' height='300'></img>
                     <Typography variant='h5'>
@@ -129,6 +133,11 @@ export default class Price extends Component {
                         Our Homepage
                     </a>
                 </header>
+                <footer>
+                    <div style={{display:"flex", justifyContent: "center", marginTop: "20vmin"}}>
+                        <p style={{fontSize: "10px"}}>All Rights Reserved @All4CatsTeam</p>
+                    </div>
+                </footer>
             </div>
         )
     }
