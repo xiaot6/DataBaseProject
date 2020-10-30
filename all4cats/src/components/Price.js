@@ -8,7 +8,7 @@ import USA from "@svg-maps/usa";
 import { SVGMap } from "react-svg-map";
 import "./Price.css";
 
-import { getLocationName } from './utils';
+import { getLocationId, getLocationName } from './utils';
 
 import { Link } from "react-router-dom";
 
@@ -24,22 +24,39 @@ export default class Price extends Component {
 
         this.handleLocationMouseOver = this.handleLocationMouseOver.bind(this);
 		this.handleLocationMouseOut = this.handleLocationMouseOut.bind(this);
-		this.handleLocationMouseMove = this.handleLocationMouseMove.bind(this);
+		this.handleLocationClick = this.handleLocationClick.bind(this);
+		this.handleLocationFocus = this.handleLocationFocus.bind(this);
+		this.handleLocationBlur = this.handleLocationBlur.bind(this);
 
-        this.state = {
-			pointedLocation: null,
-			tooltipStyle: {
-				display: 'none'
-			}
-		};
+        // this.state = {
+		// 	pointedLocation: null,
+		// 	tooltipStyle: {
+		// 		display: 'none'
+		// 	}
+		// };
 
 		
         this.state = {
           titleForSearch: "",
           tutorials: [],
           currentTutorial: null,
-          currentIndex: -1,
+            currentIndex: -1,
+            pointedLocation: null,
+			focusedLocation: null,
+			clickedLocation: null
         };
+
+        this.links = {
+			AL: 'https://en.wikipedia.org/wiki/Auvergne-Rh%C3%B4ne-Alpes',
+			AK: 'https://en.wikipedia.org/wiki/Bourgogne-Franche-Comt%C3%A9',
+			AS: 'https://en.wikipedia.org/wiki/Brittany_(administrative_region)',
+			AZ: 'https://en.wikipedia.org/wiki/Centre-Val_de_Loire',
+			AR: 'https://en.wikipedia.org/wiki/Corsica',
+			CA: 'https://en.wikipedia.org/wiki/Grand_Est',
+			CO: 'https://en.wikipedia.org/wiki/Hauts-de-France',
+			CT: 'https://en.wikipedia.org/wiki/%C3%8Ele-de-France',
+
+		};
     }
 
     componentDidMount() {
@@ -108,36 +125,37 @@ export default class Price extends Component {
         });
     }
 
-    showName() {
-        console.log("USA");
-    }
-
-    handleLocationMouseOver(event) {
+    
+    
+    // for map:
+	handleLocationMouseOver(event) {
 		const pointedLocation = getLocationName(event);
-		this.setState({ pointedLocation });
+		this.setState({ pointedLocation: pointedLocation });
 	}
 
 	handleLocationMouseOut() {
-		this.setState({ pointedLocation: null, tooltipStyle: { display: 'none' } });
+		this.setState({ pointedLocation: null });
 	}
 
-	handleLocationMouseMove(event) {
-		const tooltipStyle = {
-			display: 'block',
-			top: event.clientY + 10,
-			left: event.clientX - 100
-		};
-		this.setState({ tooltipStyle });
+	handleLocationClick(event) {
+		const clickedLocation = getLocationName(event);
+		const clickedLocationId = getLocationId(event);
+		this.setState({ clickedLocation: clickedLocation });
+		window.open(this.links[clickedLocationId], '_blank');
 	}
 
-	getLocationClassName(location, index) {
-		// Generate random heat map
-		return `svg-map__location svg-map__location--heat${index % 4}`;
+	handleLocationFocus(event) {
+		const focusedLocation = getLocationName(event);
+		this.setState({ focusedLocation: focusedLocation });
+	}
+
+	handleLocationBlur() {
+		this.setState({ focusedLocation: null });
 	}
 
 
     render() {
-        // const { titleForSearch, tutorials, currentTutorial, currentIndex } = this.state;
+        const { titleForSearch, tutorials, currentTutorial, currentIndex } = this.state;
         return (
             <div>
                 <header>
@@ -170,11 +188,13 @@ export default class Price extends Component {
                     </div>
                 </div>
                 <div style={{ display: "flex", justifyContent: "center", height:"50rem" }}>
-                    <SVGMap map={USA} onLocationMouseOver={this.showName}
-                            locationClassName={this.getLocationClassName}
-                            onLocationMouseOver={this.handleLocationMouseOver}
-                            onLocationMouseOut={this.handleLocationMouseOut}
-                        onLocationMouseMove={this.handleLocationMouseMove} />
+                    <SVGMap map={USA}
+                        type="link"
+						onLocationMouseOver={this.handleLocationMouseOver}
+						onLocationMouseOut={this.handleLocationMouseOut}
+						onLocationClick={this.handleLocationClick}
+						onLocationFocus={this.handleLocationFocus}
+						onLocationBlur={this.handleLocationBlur} />
                     <div className="tooltip" style={this.state.tooltipStyle}>
 						{this.state.pointedLocation}
 					</div>
