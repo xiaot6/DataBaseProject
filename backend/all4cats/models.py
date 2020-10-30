@@ -14,16 +14,18 @@ from django.db import models
 
 
 class Price(models.Model):
-    date = models.CharField(
-        max_length=200,
-        blank=False,
-        default='',
-        primary_key=True)
-    value = models.FloatField()
+    class Meta:
+        unique_together = (('zipcode', 'date'),)
+    
     zipcode = models.CharField(
         max_length=60,
         blank=False,
         default='')
+    date = models.CharField(
+        max_length=200,
+        blank=False,
+        default='')
+    value = models.FloatField(default=0.0)
 
 
 class University(models.Model):
@@ -44,8 +46,8 @@ class House(models.Model):
         blank=False,
         default='',
         primary_key=True)
-    price = models.FloatField()
+    price = models.FloatField(default=0.0)
     company = models.CharField(max_length=200, blank=False, default='')
     address = models.CharField(max_length=200, blank=False, default='')
-    number_of_rooms = models.IntegerField()
+    number_of_rooms = models.IntegerField(default=0)
     floor_plan = models.CharField(max_length=200, blank=False, default='')

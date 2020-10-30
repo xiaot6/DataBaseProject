@@ -16,26 +16,56 @@ from rest_framework.decorators import api_view
 
 
 @api_view(['GET', 'POST', 'DELETE'])
-class Price():
-    def get_price(request):
-        if request.method == 'GET':
-            price = Price.objects.all()
-            price_serializer = PriceSerializer(price, many=True)
-            return JsonResponse(price_serializer.data, safe=False)
+def get_price_all(request):
+    if request.method == 'GET':
+        price = Price.objects.all()
+        price_serializer = PriceSerializer(price, many=True)
+        return JsonResponse(price_serializer.data, safe=False)
 
-        elif request.method == 'POST':
-            price_data = JSONParser().parse(request)
-            price_serializer = PriceSerializer(data=price_data)
-            if price_serializer.is_valid():
-                price_serializer.save()
-                return JsonResponse(price_serializer.data, 
-                                    status=status.HTTP_201_CREATED) 
-            return JsonResponse(price_serializer.errors, 
-                                status=status.HTTP_400_BAD_REQUEST)
-        elif request.method == 'DELETE':
-            count = Price.objects.all().delete()
-            return JsonResponse({'message': '{} deleted!'.format(count[0])}, 
-                                status=status.HTTP_204_NO_CONTENT)
+    elif request.method == 'POST':
+        price_data = JSONParser().parse(request)
+        price_serializer = PriceSerializer(data=price_data)
+        if price_serializer.is_valid():
+            price_serializer.save()
+            return JsonResponse(price_serializer.data, 
+                                status=status.HTTP_201_CREATED) 
+        return JsonResponse(price_serializer.errors, 
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        count = Price.objects.all().delete()
+        return JsonResponse({'message': '{} deleted!'.format(count[0])}, 
+                            status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def get_price_selected(request, d, z):
+    try: 
+        prices = Price.objects.filter(date=d).filter(zipcode=z)
+    except Price.DoesNotExist: 
+        return JsonResponse({'message': 'The prices does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+ 
+    if request.method == 'GET': 
+        prices_serializer = PriceSerializer(prices, many=True) 
+        return JsonResponse(prices_serializer.data, safe=False) 
+ 
+    elif request.method == 'PUT': 
+        prices = Price.objects.get(zipcode=z, date=d) 
+        prices_data = JSONParser().parse(request) 
+        prices_serializer = PriceSerializer(prices, data=prices_data) 
+        if prices_serializer.is_valid(): 
+            prices_serializer.save() 
+            return JsonResponse(prices_serializer.data) 
+        return JsonResponse(prices_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+ 
+    elif request.method == 'DELETE': 
+        prices.delete() 
+        return JsonResponse({'message': 'Prices were deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+
 
 # # Create your views here.
 # @api_view(['GET', 'POST', 'DELETE'])
