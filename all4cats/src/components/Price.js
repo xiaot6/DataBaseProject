@@ -5,8 +5,10 @@ import PriceDataService from "../services/price.service";
 
 import ReactDOM from "react-dom";
 import USA from "@svg-maps/usa";
-import { CheckboxSVGMap } from "react-svg-map";
+import { SVGMap } from "react-svg-map";
 import "./Price.css";
+
+import { getLocationName } from './utils';
 
 import { Link } from "react-router-dom";
 
@@ -19,7 +21,19 @@ export default class Price extends Component {
         this.setActiveTutorial = this.setActiveTutorial.bind(this);
         this.removeAllTutorials = this.removeAllTutorials.bind(this);
         this.searchTitle = this.searchTitle.bind(this);
-    
+
+        this.handleLocationMouseOver = this.handleLocationMouseOver.bind(this);
+		this.handleLocationMouseOut = this.handleLocationMouseOut.bind(this);
+		this.handleLocationMouseMove = this.handleLocationMouseMove.bind(this);
+
+        this.state = {
+			pointedLocation: null,
+			tooltipStyle: {
+				display: 'none'
+			}
+		};
+
+		
         this.state = {
           titleForSearch: "",
           tutorials: [],
@@ -94,6 +108,33 @@ export default class Price extends Component {
         });
     }
 
+    showName() {
+        console.log("USA");
+    }
+
+    handleLocationMouseOver(event) {
+		const pointedLocation = getLocationName(event);
+		this.setState({ pointedLocation });
+	}
+
+	handleLocationMouseOut() {
+		this.setState({ pointedLocation: null, tooltipStyle: { display: 'none' } });
+	}
+
+	handleLocationMouseMove(event) {
+		const tooltipStyle = {
+			display: 'block',
+			top: event.clientY + 10,
+			left: event.clientX - 100
+		};
+		this.setState({ tooltipStyle });
+	}
+
+	getLocationClassName(location, index) {
+		// Generate random heat map
+		return `svg-map__location svg-map__location--heat${index % 4}`;
+	}
+
 
     render() {
         // const { titleForSearch, tutorials, currentTutorial, currentIndex } = this.state;
@@ -129,7 +170,14 @@ export default class Price extends Component {
                     </div>
                 </div>
                 <div style={{ display: "flex", justifyContent: "center", height:"50rem" }}>
-                    <CheckboxSVGMap map={USA} />
+                    <SVGMap map={USA} onLocationMouseOver={this.showName}
+                            locationClassName={this.getLocationClassName}
+                            onLocationMouseOver={this.handleLocationMouseOver}
+                            onLocationMouseOut={this.handleLocationMouseOut}
+                        onLocationMouseMove={this.handleLocationMouseMove} />
+                    <div className="tooltip" style={this.state.tooltipStyle}>
+						{this.state.pointedLocation}
+					</div>
                 </div>
                 <Typography class = "welcome">
                     CS 411 Final Project - All4Cats.
@@ -156,8 +204,4 @@ export default class Price extends Component {
     
 }
  
-
-
-
-
 

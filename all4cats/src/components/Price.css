@@ -36,3 +36,11 @@ homepage {
   font-size: 18px;
   text-align: center;
 }
+
+tooltip {
+  position: fixed;
+  width: 200px;
+  padding: 10px;
+  border: 1px solid darkgray;
+  background-color: white;
+}
