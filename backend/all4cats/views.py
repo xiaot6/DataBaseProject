@@ -3,10 +3,39 @@ from django.shortcuts import render
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
  
-from all4cats.models import All4Cats
-from all4cats.serializers import All4CatsSerializer
+from all4cats.models import Price, University, House
+from all4cats.serializers import PriceSerializer
+from all4cats.serializers import UniveristySerializer
+from all4cats.serializers import HouseSerializer
+
+
 from rest_framework.decorators import api_view
+
+
+@api_view(['GET', 'POST', 'DELETE'])
+class Price():
+    def get_price(request):
+        if request.method == 'GET':
+            price = Price.objects.all()
+            price_serializer = PriceSerializer(price, many=True)
+            return JsonResponse(price_serializer.data, safe=False)
+
+        elif request.method == 'POST':
+            price_data = JSONParser().parse(request)
+            price_serializer = PriceSerializer(data=price_data)
+            if price_serializer.is_valid():
+                price_serializer.save()
+                return JsonResponse(price_serializer.data, 
+                                    status=status.HTTP_201_CREATED) 
+            return JsonResponse(price_serializer.errors, 
+                                status=status.HTTP_400_BAD_REQUEST)
+        elif request.method == 'DELETE':
+            count = Price.objects.all().delete()
+            return JsonResponse({'message': '{} deleted!'.format(count[0])}, 
+                                status=status.HTTP_204_NO_CONTENT)
 
 # # Create your views here.
 # @api_view(['GET', 'POST', 'DELETE'])

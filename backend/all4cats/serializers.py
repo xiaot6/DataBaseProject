@@ -10,7 +10,7 @@ from all4cats.models import Price, University, House
 #                   'city')
 
 
-class priceSerializer(serializers.ModelSerializer):
+class PriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Price
         fields = ('date',
@@ -18,7 +18,7 @@ class priceSerializer(serializers.ModelSerializer):
                   'zipcode')
 
 
-class univeristySerializer(serializers.ModelSerializer):
+class UniveristySerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = ('university_name',
