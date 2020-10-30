@@ -43,12 +43,15 @@ export default class Price extends Component {
             currentIndex: -1,
             pointedLocation: null,
 			focusedLocation: null,
-			clickedLocation: null
+            clickedLocation: null,
+			tooltipStyle: {
+				display: getLocationName
+			}
         };
 
         this.links = {
 			AL: 'https://en.wikipedia.org/wiki/Auvergne-Rh%C3%B4ne-Alpes',
-			AK: 'https://en.wikipedia.org/wiki/Bourgogne-Franche-Comt%C3%A9',
+			AK: 'https://wiki.illinois.edu/wiki/display/CS411AAFA20/All4Cat',
 			AS: 'https://en.wikipedia.org/wiki/Brittany_(administrative_region)',
 			AZ: 'https://en.wikipedia.org/wiki/Centre-Val_de_Loire',
 			AR: 'https://en.wikipedia.org/wiki/Corsica',
@@ -187,7 +190,8 @@ export default class Price extends Component {
                         </List>
                     </div>
                 </div>
-                <div style={{ display: "flex", justifyContent: "center", height:"50rem" }}>
+                <div style={{ display: "inline", justifyContent: "center", height:"40rem" }}>
+                {/* <div className="examples__block__map examples__block__map--usa"> */}
                     <SVGMap map={USA}
                         type="link"
 						onLocationMouseOver={this.handleLocationMouseOver}
@@ -195,7 +199,7 @@ export default class Price extends Component {
 						onLocationClick={this.handleLocationClick}
 						onLocationFocus={this.handleLocationFocus}
 						onLocationBlur={this.handleLocationBlur} />
-                    <div className="tooltip" style={this.state.tooltipStyle}>
+                    <div className="examples__block__map__tooltip" style={this.state.tooltipStyle}>
 						{this.state.pointedLocation}
 					</div>
                 </div>

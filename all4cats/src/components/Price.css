@@ -44,3 +44,19 @@ tooltip {
   border: 1px solid darkgray;
   background-color: white;
 }
+
+/* Using box model */
+* {
+  box-sizing: border-box;
+}
+
+/* Maps examples */
+.examples {
+  &__tooltip {
+    position: fixed;
+    width: 200px;
+    padding: 10px;
+    border: 1px solid darkgray;
+    background-color: white;
+  }
+}
