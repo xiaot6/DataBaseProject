@@ -12,9 +12,27 @@
 }
 .svg-map__location:focus,
 .svg-map__location:hover {
-  fill: #00b894;
+  fill: #218c74;
   outline: 0;
 }
 .svg-map__location[aria-checked="true"] {
   fill: #e17055;
+}
+
+h4 {
+  color: #218c74;
+  font-size: 36px;
+  text-align: center;
+}
+
+homepage {
+  color: #218c74;
+  font-size: 36px;
+  text-align: center;
+}
+
+.welcome {
+  color: #284b53;
+  font-size: 18px;
+  text-align: center;
 }

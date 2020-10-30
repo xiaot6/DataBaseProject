@@ -99,8 +99,12 @@ export default class Price extends Component {
         // const { titleForSearch, tutorials, currentTutorial, currentIndex } = this.state;
         return (
             <div>
-                <h4>
-                    This is Price / Index Page
+                <header>
+                    <img src={logo} alt='Logo' height='300'></img>
+
+                </header>
+                <h4 >
+                    Searching A House
                 </h4>
                 <form noValidate autoComplete="off">
                     {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
@@ -124,24 +128,20 @@ export default class Price extends Component {
                         </List>
                     </div>
                 </div>
-                <header>
-                    <img src={logo} alt='Logo' height='300'></img>
-                    <Typography variant='h5'>
-                        Welcome to CS 411 Final Project - All4Cats.
-                    </Typography>
-                    <a
+                <div style={{ display: "flex", justifyContent: "center", height:"50rem" }}>
+                    <CheckboxSVGMap map={USA} />
+                </div>
+                <Typography class = "welcome">
+                    CS 411 Final Project - All4Cats.
+                </Typography>
+                <a
                     className="App-link"
                     href="https://wiki.illinois.edu/wiki/display/CS411AAFA20/All4Cat"
                     target="_blank"
                     rel="noopener noreferrer"
                     >
                         Our Homepage
-                    </a>
-                </header>
-                {/* <CheckboxSVGMap map={USA} /> */}
-                <div style={{ display: "flex", justifyContent: "center", height:"50rem" }}>
-                    <CheckboxSVGMap map={USA} />
-                </div>
+                </a>
                 <footer>
                     <div style={{display:"flex", justifyContent: "center", marginTop: "20vmin"}}>
                         <p style={{fontSize: "10px"}}>All Rights Reserved @All4CatsTeam</p>
