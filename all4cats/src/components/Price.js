@@ -6,7 +6,7 @@ import PriceDataService from "../services/price.service";
 import ReactDOM from "react-dom";
 import USA from "@svg-maps/usa";
 import { CheckboxSVGMap } from "react-svg-map";
-import "react-svg-map/lib/index.css";
+import "./Price.css";
 
 import { Link } from "react-router-dom";
 
@@ -138,7 +138,10 @@ export default class Price extends Component {
                         Our Homepage
                     </a>
                 </header>
-                <CheckboxSVGMap map={USA} />
+                {/* <CheckboxSVGMap map={USA} /> */}
+                <div style={{ display: "flex", justifyContent: "center", height:"50rem" }}>
+                    <CheckboxSVGMap map={USA} />
+                </div>
                 <footer>
                     <div style={{display:"flex", justifyContent: "center", marginTop: "20vmin"}}>
                         <p style={{fontSize: "10px"}}>All Rights Reserved @All4CatsTeam</p>
@@ -149,9 +152,11 @@ export default class Price extends Component {
 
     }
 
-
+    
     
 }
+ 
+
 
 
 
