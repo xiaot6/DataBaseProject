@@ -60,3 +60,9 @@ tooltip {
     background-color: white;
   }
 }
+
+
+.formStyle {
+  margin: '10px';
+  width: '25ch';
+}

@@ -18,13 +18,12 @@ from rest_framework.decorators import api_view
 @api_view(['GET', 'POST', 'DELETE'])
 def get_price_all(request):
     if request.method == 'GET':
-        price = Price.objects.all()
+        price = Price.objects.raw('SELECT * FROM all4cats_price')
         price_serializer = PriceSerializer(price, many=True)
         return JsonResponse(price_serializer.data, safe=False)
 
     elif request.method == 'POST':
-        price_data = JSONParser().parse(request)
-        price_serializer = PriceSerializer(data=price_data)
+        price_serializer = PriceSerializer(data=request.data)
         if price_serializer.is_valid():
             price_serializer.save()
             return JsonResponse(price_serializer.data, 
@@ -33,14 +32,14 @@ def get_price_all(request):
                             status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        count = Price.objects.all().delete()
+        count = Price.objects.raw('SELECT * FROM all4cats_price').delete()
         return JsonResponse({'message': '{} deleted!'.format(count[0])}, 
                             status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def get_price_selected(request, d, z):
     try: 
-        prices = Price.objects.filter(date=d).filter(zipcode=z)
+        prices = Price.objects.raw('SELECT * FROM all4cats_price WHERE date = %s AND zipcode = %s', [d, z])
     except Price.DoesNotExist: 
         return JsonResponse({'message': 'The prices does not exist'}, status=status.HTTP_404_NOT_FOUND) 
  

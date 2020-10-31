@@ -1,32 +1,32 @@
 import http from "../http-common";
 
 class PriceDataService {
+  //-----All Prices----//
+
   getAll() {
-    return http.get("/all4cats");
+    return http.get("/price");
   }
 
-  get(id) {
-    return http.get(`/all4cats/${id}`);
-  }
-
-  create(data) {
-    return http.post("/all4cats", data);
-  }
-
-  update(id, data) {
-    return http.put(`/all4cats/${id}`, data);
-  }
-
-  delete(id) {
-    return http.delete(`/all4cats/${id}`);
+  // ```data``` should be a json format instead of a single attribute
+  createAll(data) {
+    return http.post("/price", data);
   }
 
   deleteAll() {
-    return http.delete(`/all4cats`);
+    return http.delete(`/price`);
   }
 
-  findByTitle(title) {
-    return http.get(`/all4cats?title=${title}`);
+  //-----Date + Zip Code----//
+  getByDateAndZip(date, zip) {
+    return http.get(`/price/${date}/${zip}`);
+  }
+
+  updateByDateAndZip(date, zip, data) {
+    return http.put(`/price/${date}/${zip}`, data);
+  }
+
+  deleteByDateAndZip(date, zip) {
+    return http.delete(`/price/${date}/${zip}`);
   }
 }
 
