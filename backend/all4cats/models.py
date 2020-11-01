@@ -3,25 +3,29 @@ from django.db import models
 # Create your models here.
 
 
-class Region(models.Model):
-    zipcode = models.CharField(
-        max_length=60,
-        blank=False,
-        default='',
-        primary_key=True)
-    state = models.CharField(max_length=200, blank=False, default='')
-    city = models.CharField(max_length=200, blank=False, default='')
+# class Region(models.Model):
+#     zipcode = models.CharField(
+#         max_length=60,
+#         blank=False,
+#         default='',
+#         primary_key=True)
+#     state = models.CharField(max_length=200, blank=False, default='')
+#     city = models.CharField(max_length=200, blank=False, default='')
 
 
 class Price(models.Model):
+    class Meta:
+        unique_together = (('zipcode', 'date'),)
+    
+    zipcode = models.CharField(
+        max_length=60,
+        blank=False,
+        default='')
     date = models.CharField(
         max_length=200,
         blank=False,
-        default='',
-        primary_key=True)
-    value = models.FloatField()
-    zipcode = models.ForeignKey(
-        Region, on_delete=models.CASCADE)
+        default='')
+    value = models.FloatField(default=0.0)
 
 
 class University(models.Model):
@@ -42,8 +46,8 @@ class House(models.Model):
         blank=False,
         default='',
         primary_key=True)
-    price = models.FloatField()
+    price = models.FloatField(default=0.0)
     company = models.CharField(max_length=200, blank=False, default='')
     address = models.CharField(max_length=200, blank=False, default='')
-    number_of_rooms = models.IntegerField()
+    number_of_rooms = models.IntegerField(default=0)
     floor_plan = models.CharField(max_length=200, blank=False, default='')
