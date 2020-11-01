@@ -267,7 +267,7 @@ export default class Price extends Component {
                     <img src={logo} alt='Logo' height='300'></img>
 
                 </header>
-                <h4 >
+                <h4>
                     Searching A House
                 </h4>
                 <form noValidate autoComplete="off" className="formStyle">

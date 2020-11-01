@@ -15,6 +15,7 @@ import React from 'react';
 import Price from "./components/Price";
 import AddPrice from "./components/AddPrice";
 import Prediction from "./components/Prediction";
+import Login from "./components/Login";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,6 +64,7 @@ function App() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    console.log(newValue);
   };
 
   return (
@@ -70,18 +72,18 @@ function App() {
       <div className={classes.root}>
         <AppBar position="static" style={{background: '#1C4954'}}>
           <Toolbar>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" to='/' component={Link}>
+            <IconButton edge="start" className={classes.menuButton} onClick={(event, newValue) => { setValue(0) }} color="inherit" aria-label="menu" to='/' component={Link}>
               <img src={logoLightSmall} alt='Logo' height='60'/>
             </IconButton>
             <div className={classes.demo2}>
-              <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example">
+              <StyledTabs value={value !== "login" ? value : false} onChange={handleChange} aria-label="styled tabs navbar">
                 <StyledTab label="Price" to='/price' component={Link}/>
                 <StyledTab label="Add Price" to='/addprice' component={Link}/>
                 <StyledTab label="Prediction" to='/prediction' component={Link}/>
               </StyledTabs>
               <Typography className={classes.padding} />
             </div>
-            <Button color="inherit">Login</Button>
+            <Button color="inherit" onClick={(event, newValue) => { setValue("login") }} component={Link} to="/login">Login</Button>
           </Toolbar>
         </AppBar>
       </div>
@@ -90,6 +92,7 @@ function App() {
           <Route exact path={["/", "/price"]} component={Price} />
           <Route path="/addprice" component={AddPrice} />
           <Route path="/prediction" component={Prediction} />
+          <Route path="/login" component={Login} />
         </Switch>
       </div>
     </div>
