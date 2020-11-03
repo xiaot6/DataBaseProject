@@ -8,6 +8,8 @@ import { List,
     } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
+import {auth, generateUserDocument} from '../firebase'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,19 +46,30 @@ const SignUp = () => {
     const [password, setPassword] = useState("");
     const [displayName, setDisplayName] = useState("");
     const [error, setError] = useState(null);
-    const createUserWithEmailAndPasswordHandler = (event, email, password) => {
+
+    const createUserWithEmailAndPasswordHandler = async (event, email, password) => {
         event.preventDefault();
+        try{
+            console.log("entered await");
+            const {user} = await auth.createUserWithEmailAndPassword(email, password);
+            generateUserDocument(user, {displayName});
+        }
+        catch(error){
+            console.log(error);
+            setError('Error Signing up with email and password');
+        }
+    
         setEmail("");
         setPassword("");
         setDisplayName("");
     };
     const onChangeHandler = event => {
         const { name, value } = event.currentTarget;
-        if (name === "userEmail") {
+        if (name == "userEmail") {
             setEmail(value);
-        } else if (name === "userPassword") {
+        } else if (name == "userPassword") {
             setPassword(value);
-        } else if (name === "displayName") {
+        } else if (name == "displayName") {
             setDisplayName(value);
         }
     };
@@ -69,20 +82,22 @@ return (
             <Typography className={classes.titleText}>
                 Sign Up
             </Typography>
-            <TextField className={classes.textField} label='User Name' variant="outlined" value = {displayName} onChange={onChangeHandler}>
+            <TextField className={classes.textField} name='displayName' label='User Name' variant="outlined" value = {displayName} onChange={onChangeHandler}>
 
             </TextField>
 
-            <TextField className={classes.textField} label='Email' variant="outlined" value = {email} onChange={onChangeHandler}>
+            <TextField className={classes.textField} name='userEmail' label='Email' variant="outlined" value = {email} onChange={onChangeHandler}>
 
             </TextField>
         
-            <TextField className={classes.textField} label='Password' variant="outlined" value = {password} onChange={onChangeHandler}>
+            <TextField className={classes.textField} name='userPassword' label='Password' variant="outlined" value = {password} onChange={onChangeHandler}>
 
             </TextField>
             <div style={{height: "1rem"}}>
             </div>
-            <Button className={classes.buttonStyle} variant="outlined" color="primary" onClick={createUserWithEmailAndPasswordHandler}>
+            <Button className={classes.buttonStyle} variant="outlined" color="primary" onClick={event => {
+              createUserWithEmailAndPasswordHandler(event, email, password);
+            }}>
                 Sign Up with Email
             </Button>
             <Button className={classes.buttonStyle} variant="outlined" color="secondary">
@@ -90,7 +105,7 @@ return (
             </Button>
             <p>
                 Already have an account?{" "}
-                <Link to="/" className={classes.linkStyle}>
+                <Link to="/user" className={classes.linkStyle}>
                     Sign in here
                 </Link>
             </p>
