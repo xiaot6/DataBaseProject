@@ -25,26 +25,28 @@ export const signInWithGoogle = () => {
   auth.signInWithPopup(provider);
 };
 
-export const generateUserDocument = async (user, additionalData) => {
+export const generateUserDocument = async (user, display_email) => {
   if (!user) {
     return;
   }
-
   const userRef = fb.ref(`users/${user.uid}`);
-  const snapshot = await userRef.once('value');
 
-  if (!snapshot.exists) {
-    const { email, displayName } = user;
-    try {
-      await userRef.set({
-        displayName,
-        email,
-        ...additionalData
-      });
-    } catch (error) {
-      console.error("Error creating user document", error);
-    }
+
+  var { email, displayName } = user;
+
+  if (!displayName) {
+    displayName = display_email;
   }
+
+  try {
+    await userRef.set({
+      displayName,
+      email,
+    });
+  } catch (error) {
+    console.error("Error creating user document", error);
+  }
+
   return getUserDocument(user.uid);
 };
 

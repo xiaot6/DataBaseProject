@@ -52,7 +52,7 @@ const SignUp = () => {
         try{
             console.log("entered await");
             const {user} = await auth.createUserWithEmailAndPassword(email, password);
-            generateUserDocument(user, {displayName});
+            generateUserDocument(user, displayName);
         }
         catch(error){
             console.log(error);
