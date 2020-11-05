@@ -49,7 +49,7 @@ export default class Price extends Component {
             // states for search field
             dateForSearch: "",
             zipForSearch: "",
-            valueForSearch: 0.0,
+            valueForSearch: null,
             priceArrayJSON: [],
             currentTutorial: null,
             currentIndex: -1,
@@ -264,11 +264,10 @@ export default class Price extends Component {
         return (
             <div>
                 <header>
-                    <img src={logo} alt='Logo' height='300'></img>
-
+                    <img src={logo} alt='Logo' height='200'></img>
                 </header>
-                <h4 >
-                    Searching A House
+                <h4>
+                    Housing Price: CRUD
                 </h4>
                 <form noValidate autoComplete="off" className="formStyle">
                     {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}

@@ -27,6 +27,13 @@ class Price(models.Model):
         default='')
     value = models.FloatField(default=0.0)
 
+    state = models.CharField(max_length=200, 
+        blank=False, 
+        default='')
+    city = models.CharField(max_length=200, 
+        blank=False, 
+        default='')
+
 
 class University(models.Model):
     university_name = models.CharField(
