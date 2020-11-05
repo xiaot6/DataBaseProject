@@ -30,7 +30,8 @@ def get_price_all(request):
             value = price_obj['value']
             zipcode = price_obj['zipcode']
             with connection.cursor() as cursor:
-                count = cursor.execute("INSERT INTO all4cats_price(date, value, zipcode) VALUES(%s,%s,%s)", [date, value, zipcode])
+                # need to change hardcoded part here to make it work
+                count = cursor.execute("INSERT INTO all4cats_price(date, value, zipcode, city, state) VALUES(%s,%s,%s,%s,%s)", [date, value, zipcode, "CITY", "STATE"])
             return JsonResponse({'message': 'successfully inserted!'}, 
                                 status=status.HTTP_201_CREATED) 
         return JsonResponse(price_serializer.errors, 
