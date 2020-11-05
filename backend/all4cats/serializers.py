@@ -17,7 +17,9 @@ class UniveristySerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = ('university_name',
-                  'zipcode')
+                  'zipcode',
+                  'state',
+                  'city')
 
 
 class HouseSerializer(serializers.ModelSerializer):

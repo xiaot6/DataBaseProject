@@ -35,6 +35,12 @@ class University(models.Model):
         max_length=60,
         blank=False,
         default='')
+    state = models.CharField(max_length=200, 
+        blank=False, 
+        default='')
+    city = models.CharField(max_length=200, 
+        blank=False, 
+        default='')
 
 
 class House(models.Model):
