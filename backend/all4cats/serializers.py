@@ -15,7 +15,9 @@ class PriceSerializer(serializers.ModelSerializer):
         model = Price
         fields = ('date',
                   'value',
-                  'zipcode')
+                  'zipcode',
+                  'state',
+                  'city')
 
 
 class UniveristySerializer(serializers.ModelSerializer):
