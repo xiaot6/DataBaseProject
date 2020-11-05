@@ -3,14 +3,14 @@ from django.db import models
 # Create your models here.
 
 
-# class Region(models.Model):
-#     zipcode = models.CharField(
-#         max_length=60,
-#         blank=False,
-#         default='',
-#         primary_key=True)
-#     state = models.CharField(max_length=200, blank=False, default='')
-#     city = models.CharField(max_length=200, blank=False, default='')
+class Region(models.Model):
+    zipcode = models.CharField(
+        max_length=60,
+        blank=False,
+        default='',
+        primary_key=True)
+    state = models.CharField(max_length=200, blank=False, default='')
+    city = models.CharField(max_length=200, blank=False, default='')
 
 
 class Price(models.Model):
