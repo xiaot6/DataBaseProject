@@ -28,6 +28,11 @@ class PriceDataService {
   deleteByDateAndZip(date, zip) {
     return http.delete(`/price/${date}/${zip}`);
   }
+
+  //-----Date + State + City----//
+  getByDateAndStateAndCity(date, state, city) {
+    return http.get(`/price/${date}/${state}/${city}`);
+  }
 }
 
 export default new PriceDataService();

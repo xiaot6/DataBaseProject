@@ -29,10 +29,11 @@ def get_price_all(request):
             date = price_obj['date']
             value = price_obj['value']
             zipcode = price_obj['zipcode']
+            state = price_obj['state']
+            city = price_obj['city']
             with connection.cursor() as cursor:
-                # need to change hardcoded part here to make it work
                 count = cursor.execute("INSERT INTO all4cats_price(date, value, zipcode, city, state) VALUES(%s,%s,%s,%s,%s)", [
-                                       date, value, zipcode, "CITY", "STATE"])
+                                       date, value, zipcode, city, state])
             return JsonResponse({'message': 'successfully inserted!'},
                                 status=status.HTTP_201_CREATED)
         return JsonResponse(price_serializer.errors,
@@ -46,7 +47,7 @@ def get_price_all(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def get_price_selected(request, d, z):
+def get_price_by_date_zipcode(request, d, z):
     try:
         prices = Price.objects.raw(
             'SELECT * FROM all4cats_price WHERE date = %s AND zipcode = %s', [d, z])
@@ -58,7 +59,6 @@ def get_price_selected(request, d, z):
         prices_serializer = PriceSerializer(prices, many=True)
         return JsonResponse(prices_serializer.data, safe=False)
 
-    # TODO: to be modified into SQL queries
     elif request.method == 'PUT':
         prices = Price.objects.raw(
             'SELECT * FROM all4cats_price WHERE date = %s AND zipcode = %s', [d, z])[0]
@@ -82,24 +82,37 @@ def get_price_selected(request, d, z):
                 "DELETE FROM all4cats_price WHERE date = %s AND zipcode = %s", [d, z])
         return JsonResponse({'message': 'Prices were deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
 
-
 @api_view(['GET'])
-def get_avg_price_by_university(request, d):  # d is university_name
-    try:  # at zipcode level
+def get_price_by_date_state_city(request, d, s, c):
+    try:
         prices = Price.objects.raw(
-            'SELECT avg(p.value) FROM all4cats_university u JOIN all4cats_price p ON u.zipcode = z.zipcode GROUP BY u.zipcode HAVING u.university_name = %s', [d])
+            'SELECT * FROM all4cats_price WHERE date = %s AND state = %s AND city = %s', [d, s, c])
 
     except Price.DoesNotExist:
-        try:  # at city level
-            prices = Price.objects.raw(
-                'SELECT avg(p.value) FROM all4cats_university u JOIN all4cats_price p ON u.city = z.city AND u.state = z.state GROUP BY u.city HAVING u.university_name = %s', [d])
-        except Price.DoesNotExist:
-            try:  # at state level
-                prices = Price.objects.raw(
-                    'SELECT avg(p.value) FROM all4cats_university u JOIN all4cats_price p ON u.state = z.state GROUP BY u.state HAVING u.university_name = %s', [d])
-            except Price.DoesNotExist:
-                return JsonResponse({'message': 'The prices does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        return JsonResponse({'message': 'The prices does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         prices_serializer = PriceSerializer(prices, many=True)
         return JsonResponse(prices_serializer.data, safe=False)
+
+
+# @api_view(['GET'])
+# def get_avg_price_by_university(request, d):  # d is university_name
+#     try:  # at zipcode level
+#         prices = Price.objects.raw(
+#             'SELECT avg(p.value) FROM all4cats_university u JOIN all4cats_price p ON u.zipcode = z.zipcode GROUP BY u.zipcode HAVING u.university_name = %s', [d])
+
+#     except Price.DoesNotExist:
+#         try:  # at city level
+#             prices = Price.objects.raw(
+#                 'SELECT avg(p.value) FROM all4cats_university u JOIN all4cats_price p ON u.city = z.city AND u.state = z.state GROUP BY u.city HAVING u.university_name = %s', [d])
+#         except Price.DoesNotExist:
+#             try:  # at state level
+#                 prices = Price.objects.raw(
+#                     'SELECT avg(p.value) FROM all4cats_university u JOIN all4cats_price p ON u.state = z.state GROUP BY u.state HAVING u.university_name = %s', [d])
+#             except Price.DoesNotExist:
+#                 return JsonResponse({'message': 'The prices does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+#     if request.method == 'GET':
+#         prices_serializer = PriceSerializer(prices, many=True)
+#         return JsonResponse(prices_serializer.data, safe=False)

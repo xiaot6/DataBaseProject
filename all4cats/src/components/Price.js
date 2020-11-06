@@ -28,6 +28,10 @@ export default class Price extends Component {
         this.searchPriceByDateAndZip = this.searchPriceByDateAndZip.bind(this);
         this.deleteAllPrice = this.deleteAllPrice.bind(this);
         this.deletePriceByDateAndZip = this.deletePriceByDateAndZip.bind(this);
+        // For city and state
+        this.searchPriceByDateStateCity = this.searchPriceByDateStateCity.bind(this);
+        this.onChangeSaveCity = this.onChangeSaveCity.bind(this);
+        this.onChangeSaveState = this.onChangeSaveState.bind(this);
 
     
         // For the interactive map
@@ -49,10 +53,12 @@ export default class Price extends Component {
             // states for search field
             dateForSearch: "",
             zipForSearch: "",
+            stateForSearch: "",
+            cityForSearch: "",
             valueForSearch: null,
             priceArrayJSON: [],
-            currentTutorial: null,
-            currentIndex: -1,
+            // currentTutorial: null,
+            // currentIndex: -1,
             // states for interactive map
             pointedLocation: null,
 			focusedLocation: null,
@@ -104,9 +110,38 @@ export default class Price extends Component {
         });
     }
 
+    onChangeSaveCity(e) {
+        const city = e.target.value;
+
+        this.setState({
+            cityForSearch: city
+        });
+    }
+    onChangeSaveState(e) {
+        const state = e.target.value;
+
+        this.setState({
+            stateForSearch: state
+        });
+    }
+
     searchPriceByDateAndZip() {
         console.log("clicked search");
         PriceDataService.getByDateAndZip(this.state.dateForSearch, this.state.zipForSearch)
+            .then(response => {
+            this.setState({
+                priceArrayJSON: response.data
+            });
+            console.log(response.data);
+            })
+            .catch(e => {
+            console.log(e);
+        });
+    }
+
+    searchPriceByDateStateCity() {
+        console.log("clicked");
+        PriceDataService.getByDateAndStateAndCity(this.state.dateForSearch, this.state.stateForSearch, this.state.cityForSearch)
             .then(response => {
             this.setState({
                 priceArrayJSON: response.data
@@ -143,7 +178,9 @@ export default class Price extends Component {
         var data = {
             date: this.state.dateForSearch,
             zipcode: this.state.zipForSearch,
-            value: this.state.valueForSearch
+            value: this.state.valueForSearch,
+            state: this.state.stateForSearch,
+            city: this.state.cityForSearch
         };
       
         PriceDataService.createAll(data)
@@ -165,7 +202,7 @@ export default class Price extends Component {
             {
                 date: this.state.dateForSearch,
                 zipcode: this.state.zipForSearch,
-                value: this.state.valueForSearch
+                value: this.state.valueForSearch,
             }
           )
             .then(response => {
@@ -208,26 +245,26 @@ export default class Price extends Component {
 
     ////////---- End search field ----////////
 
-    retrieveTutorials() {
-        PriceDataService.getAll()
-        .then(response => {
-        this.setState({
-            tutorials: response.data
-        });
-        console.log(response.data);
-        })
-        .catch(e => {
-        console.log(e);
-        });
-    }
+    // retrieveTutorials() {
+    //     PriceDataService.getAll()
+    //     .then(response => {
+    //     this.setState({
+    //         tutorials: response.data
+    //     });
+    //     console.log(response.data);
+    //     })
+    //     .catch(e => {
+    //     console.log(e);
+    //     });
+    // }
 
-    setActiveTutorial(tutorial, index) {
-        console.log("set active");
-        this.setState({
-            currentTutorial: tutorial,
-            currentIndex: index
-        });
-    }
+    // setActiveTutorial(tutorial, index) {
+    //     console.log("set active");
+    //     this.setState({
+    //         currentTutorial: tutorial,
+    //         currentIndex: index
+    //     });
+    // }
 
 
     
@@ -274,9 +311,14 @@ export default class Price extends Component {
                     <TextField id="outlined-basic1" label="Date" value={this.state.dateForSearch} onChange={this.onChangeSaveDate} variant="outlined"/>
                     <TextField id="outlined-basic2" label="Zip Code" value={this.state.zipForSearch} onChange={this.onChangeSaveZip} variant="outlined"/>
                     <TextField id="outlined-basic3" label="Price" value={this.state.valueForSearch} onChange={this.onChangeSaveValue} variant="outlined"/>
+                    <TextField id="outlined-basic4" label="City" value={this.state.cityForSearch} onChange={this.onChangeSaveCity} variant="outlined"/>
+                    <TextField id="outlined-basic5" label="State" value={this.state.stateForSearch} onChange={this.onChangeSaveState} variant="outlined"/>
                 </form>
                 <Button onClick={this.searchPriceByDateAndZip}>
-                    Search One
+                    Search One by Date and Zipcode
+                </Button>
+                <Button onClick={this.searchPriceByDateStateCity}>
+                    Search One by DateStateCity
                 </Button>
                 <Button onClick={this.searchAllPrice}>
                     Show All Price
@@ -309,7 +351,7 @@ export default class Price extends Component {
                                     onClick={() => {}}
                                     key={index}
                                 >
-                                    <ListItemText>Date: {priceJSON.date}, Zip: {priceJSON.zipcode}, Price: {priceJSON.value}</ListItemText>
+                                    <ListItemText>Date: {priceJSON.date}, Zip: {priceJSON.zipcode}, Price: {priceJSON.value}, City: {priceJSON.city}, State: {priceJSON.state}</ListItemText>
                                 </ListItem>
                             ))}
                         </List>
