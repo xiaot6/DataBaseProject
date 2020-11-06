@@ -109,7 +109,6 @@ def get_state_avg_price(request, s):
         cursor.execute(
             'SELECT avg(value) as value FROM all4cats_price GROUP BY state HAVING state = %s', [s])
         avg_price = cursor.fetchone()[0]
-        print(avg_price)
         # prices_serializer = PriceSerializer(avg_price)
         return JsonResponse({'value': avg_price}, safe=False)
 
@@ -125,14 +124,11 @@ def get_avg_price_by_university(request, d):  # d is university_name
 
     cursor = connection.cursor()
     count = cursor.execute(
-        'SELECT avg(p.value) FROM all4cats_university u JOIN all4cats_price p ON u.zipcode=p.zipcode WHERE u.university_name = %s GROUP BY u.state', [d])
-
+        'SELECT avg(p.value) FROM all4cats_university u JOIN all4cats_price p ON u.zipcode = p.zipcode WHERE u.university_name = %s GROUP BY u.zipcode', [d])
     if count == 0:
-
         count = cursor.execute(
-            'SELECT avg(p.value) FROM all4cats_university u JOIN all4cats_price p ON u.city = p.city AND u.state = p.state WHERE u.university_name = %sGROUP BY u.city ', [d])
+            'SELECT avg(p.value) FROM all4cats_university u JOIN all4cats_price p ON u.city = p.city AND u.state = p.state WHERE u.university_name = %s GROUP BY u.city ', [d])
     if count == 0:
-
         count = cursor.execute(
             'SELECT avg(p.value) FROM all4cats_university u JOIN all4cats_price p ON u.state = p.state WHERE u.university_name = %sGROUP BY u.state ', [d])
     prices = cursor.fetchone()[0]
