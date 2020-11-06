@@ -3,16 +3,6 @@ from django.db import models
 # Create your models here.
 
 
-# class Region(models.Model):
-#     zipcode = models.CharField(
-#         max_length=60,
-#         blank=False,
-#         default='',
-#         primary_key=True)
-#     state = models.CharField(max_length=200, blank=False, default='')
-#     city = models.CharField(max_length=200, blank=False, default='')
-
-
 class Price(models.Model):
     class Meta:
         unique_together = (('zipcode', 'date'),)
@@ -27,6 +17,13 @@ class Price(models.Model):
         default='')
     value = models.FloatField(default=0.0)
 
+    state = models.CharField(max_length=200, 
+        blank=False, 
+        default='')
+    city = models.CharField(max_length=200, 
+        blank=False, 
+        default='')
+
 
 class University(models.Model):
     university_name = models.CharField(
@@ -37,6 +34,12 @@ class University(models.Model):
     zipcode = models.CharField(
         max_length=60,
         blank=False,
+        default='')
+    state = models.CharField(max_length=200, 
+        blank=False, 
+        default='')
+    city = models.CharField(max_length=200, 
+        blank=False, 
         default='')
 
 

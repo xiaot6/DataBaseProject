@@ -2,27 +2,24 @@ from rest_framework import serializers
 from all4cats.models import Price, University, House
 
 
-# class regionSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Region
-#         fields = ('zipcode',
-#                   'state',
-#                   'city')
-
 
 class PriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Price
         fields = ('date',
                   'value',
-                  'zipcode')
+                  'zipcode',
+                  'state',
+                  'city')
 
 
 class UniveristySerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = ('university_name',
-                  'zipcode')
+                  'zipcode',
+                  'state',
+                  'city')
 
 
 class HouseSerializer(serializers.ModelSerializer):
