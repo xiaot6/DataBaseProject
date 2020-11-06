@@ -11,6 +11,7 @@ from all4cats.serializers import PriceSerializer
 from all4cats.serializers import UniveristySerializer
 from all4cats.serializers import HouseSerializer
 from django.db import connection
+from django.core import serializers
 
 from rest_framework.decorators import api_view
 
@@ -94,6 +95,21 @@ def get_price_by_date_state_city(request, d, s, c):
     if request.method == 'GET':
         prices_serializer = PriceSerializer(prices, many=True)
         return JsonResponse(prices_serializer.data, safe=False)
+
+@api_view(['GET'])
+def get_state_avg_price(request, s):
+    if request.method == 'GET':
+        # prices = Price.objects.raw(
+        #     'SELECT avg(value) FROM all4cats_price GROUP BY state HAVING state = %s', [s])
+        # prices_serializer = serializers.serialize('json', prices)
+        # return JsonResponse(prices_serializer, safe=False)
+        cursor = connection.cursor()
+        cursor.execute('SELECT avg(value) as value FROM all4cats_price GROUP BY state HAVING state = %s', [s])
+        avg_price = cursor.fetchone()[0]
+        print(avg_price)
+        #prices_serializer = PriceSerializer(avg_price)
+        return JsonResponse({'value': avg_price}, safe=False)
+        
 
 
 # @api_view(['GET'])

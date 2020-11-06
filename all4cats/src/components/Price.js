@@ -32,6 +32,8 @@ export default class Price extends Component {
         this.searchPriceByDateStateCity = this.searchPriceByDateStateCity.bind(this);
         this.onChangeSaveCity = this.onChangeSaveCity.bind(this);
         this.onChangeSaveState = this.onChangeSaveState.bind(this);
+        //avg
+        this.searchStateAvgPrice = this.searchStateAvgPrice.bind(this);
 
     
         // For the interactive map
@@ -153,6 +155,22 @@ export default class Price extends Component {
         });
     }
 
+    searchStateAvgPrice() {
+        PriceDataService.getStateAvgPrice(this.state.stateForSearch)
+            .then(response => {
+                console.log("avgClicked");
+                console.log(response.data);
+            this.setState({
+                priceArrayJSON: [response.data]
+            });
+            console.log(response.data);
+            })
+            .catch(e => {
+            console.log(e);
+        });
+    }
+
+
     searchAllPrice() {
         console.log("clicked show all");
         PriceDataService.getAll()
@@ -271,8 +289,8 @@ export default class Price extends Component {
     
     // for map:
 	handleLocationMouseOver(event) {
-		const pointedLocation = getLocationName(event);
-		this.setState({ pointedLocation: pointedLocation });
+		const pointLoc = getLocationName(event);
+		this.setState({ pointedLocation: pointLoc });
 	}
 
 	handleLocationMouseOut() {
@@ -322,6 +340,9 @@ export default class Price extends Component {
                 </Button>
                 <Button onClick={this.searchAllPrice}>
                     Show All Price
+                </Button>
+                <Button onClick={this.searchStateAvgPrice}>
+                    Show State Avg_Price
                 </Button>
                 <Button onClick={this.refreshList}>
                     Refresh List
