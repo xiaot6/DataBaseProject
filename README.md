@@ -6,7 +6,7 @@
 Run ```npm install``` to set up environment.
 Run ```npm start``` to start local host.
 
-# Backend
+## Backend
 Run ```pipenv shell``` to set up environment. </br>
 Run ```python manage.py makemigrations all4cats``` to set up migration files. </br>
 Run ```python manage.py migrate all4cats``` to set up database. </br>
