@@ -70,9 +70,9 @@ export default class Price extends Component {
             }
         };
 
-        this.links = {
-			AL: 'https://en.wikipedia.org/wiki/Auvergne-Rh%C3%B4ne-Alpes',
-			AK: 'https://wiki.illinois.edu/wiki/display/CS411AAFA20/All4Cat',
+        this.Links = {
+			AL: "https://wiki.illinois.edu/wiki/display/CS411AAFA20/All4Cat",
+            AK: "https://wiki.illinois.edu/wiki/display/CS411AAFA20/All4Cat",
 			AS: 'https://en.wikipedia.org/wiki/Brittany_(administrative_region)',
 			AZ: 'https://en.wikipedia.org/wiki/Centre-Val_de_Loire',
 			AR: 'https://en.wikipedia.org/wiki/Corsica',
