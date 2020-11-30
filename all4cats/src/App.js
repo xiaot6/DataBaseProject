@@ -17,6 +17,7 @@ import AddPrice from "./components/AddPrice";
 import Prediction from "./components/Prediction";
 import User from "./components/User";
 import UserProvider from "./providers/UserProvider";
+import CA from "./components/States/CA";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -96,6 +97,7 @@ function App() {
             <Route path="/addprice" component={AddPrice} />
             <Route path="/prediction" component={Prediction} />
             <Route path="/user" component={User} />
+            <Route path="/states/CA" component={CA} />
           </Switch>
         </div>
       </UserProvider>

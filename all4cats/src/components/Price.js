@@ -77,7 +77,7 @@ export default class Price extends Component {
 			"as": 'https://en.wikipedia.org/wiki/Brittany_(administrative_region)',
 			"az": 'https://en.wikipedia.org/wiki/Centre-Val_de_Loire',
 			"ar": 'https://en.wikipedia.org/wiki/Corsica',
-			"ca": 'https://en.wikipedia.org/wiki/Grand_Est',
+			"ca": './states/CA',
 			"co": 'https://en.wikipedia.org/wiki/Hauts-de-France',
 			"ct": 'https://en.wikipedia.org/wiki/%C3%8Ele-de-France',
 

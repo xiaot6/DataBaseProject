@@ -8,6 +8,7 @@ import PriceDataService from "../services/price.service";
 import CA from '../assets/CA.png';
 import TX from '../assets/TX.png';
 import locationMap from './utils.js';
+import Plot from 'react-plotly.js';
 
 
 export default class Prediction extends Component {
@@ -22,6 +23,8 @@ export default class Prediction extends Component {
       stateForPredict: "",
       index: 0,
       imgToShow: [CA, TX],
+      x: [],
+      y:[],
       tooltipStyle: {
 				display: getLocationName
       }
@@ -40,6 +43,7 @@ export default class Prediction extends Component {
         index : 1
       })
     }
+ 
     
   }
 
@@ -76,7 +80,23 @@ export default class Prediction extends Component {
               onLocationFocus={this.handleLocationFocus}
               onLocationBlur={this.handleLocationBlur} />
         </div>
-      
+        <div>
+        <Plot
+        data={[
+          {
+            x: this.state.x,
+            y: this.state.y,
+            type: 'scatter',
+            mode: 'lines+markers',
+            marker: {color: 'red'},
+          },
+          {type: 'scatter', x: this.state.x, y: this.state.y},
+        ]}
+        layout={ {width: 320, height: 240, title: 'A Fancy Plot'} }
+          />
+  
+        </div>
+      </div>
     )
   }
 }
