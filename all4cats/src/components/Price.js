@@ -71,15 +71,15 @@ export default class Price extends Component {
             }
         };
 
-        this.Links = {
-			AL: "https://wiki.illinois.edu/wiki/display/CS411AAFA20/All4Cat",
-            AK: "https://wiki.illinois.edu/wiki/display/CS411AAFA20/All4Cat",
-			AS: 'https://en.wikipedia.org/wiki/Brittany_(administrative_region)',
-			AZ: 'https://en.wikipedia.org/wiki/Centre-Val_de_Loire',
-			AR: 'https://en.wikipedia.org/wiki/Corsica',
-			CA: 'https://en.wikipedia.org/wiki/Grand_Est',
-			CO: 'https://en.wikipedia.org/wiki/Hauts-de-France',
-			CT: 'https://en.wikipedia.org/wiki/%C3%8Ele-de-France',
+        this.links = {
+			"al": "https://wiki.illinois.edu/wiki/display/CS411AAFA20/All4Cat",
+            "ak": "https://wiki.illinois.edu/wiki/display/CS411AAFA20/All4Cat",
+			"as": 'https://en.wikipedia.org/wiki/Brittany_(administrative_region)',
+			"az": 'https://en.wikipedia.org/wiki/Centre-Val_de_Loire',
+			"ar": 'https://en.wikipedia.org/wiki/Corsica',
+			"ca": 'https://en.wikipedia.org/wiki/Grand_Est',
+			"co": 'https://en.wikipedia.org/wiki/Hauts-de-France',
+			"ct": 'https://en.wikipedia.org/wiki/%C3%8Ele-de-France',
 
 		};
     }
@@ -313,7 +313,9 @@ export default class Price extends Component {
 
 	handleLocationClick(event) {
 		const clickedLocation = getLocationName(event);
-		const clickedLocationId = getLocationId(event);
+        const clickedLocationId = getLocationId(event);
+        
+        console.log(clickedLocationId);
 		this.setState({ clickedLocation: clickedLocation });
 		window.open(this.links[clickedLocationId], '_blank');
 	}
