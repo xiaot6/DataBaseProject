@@ -14,11 +14,6 @@ export default class Prediction extends Component {
 
     this.predictThisState = this.predictThisState.bind(this);
     this.onChangeSaveState = this.onChangeSaveState.bind(this);
-    this.handleLocationMouseOver = this.handleLocationMouseOver.bind(this);
-    this.handleLocationMouseOut = this.handleLocationMouseOut.bind(this);
-    this.handleLocationClick = this.handleLocationClick.bind(this);
-    this.handleLocationFocus = this.handleLocationFocus.bind(this);
-    this.handleLocationBlur = this.handleLocationBlur.bind(this);
 
     
     this.state = {
@@ -27,19 +22,18 @@ export default class Prediction extends Component {
       imgToShow: [CA, TX],
       tooltipStyle: {
 				display: getLocationName
-        }
+      }
     };
 
   }
   
   predictThisState() {
     console.log("clicked search");
-
-    if (this.stateForPredict == "CA") {
+    if (this.state.stateForPredict == "CA") {
       this.setState({
         index : 0
       })
-    } else if (this.stateForPredict == "TX") {
+    } else if (this.state.stateForPredict == "TX") {
       this.setState({
         index : 1
       })
@@ -48,73 +42,30 @@ export default class Prediction extends Component {
   }
 
   onChangeSaveState(e) {
-    const state = e.target.value;
-
-        this.setState({
-            stateForSearch: state
-        });
+    const st = e.target.value;
+    this.setState({
+      stateForPredict: st
+    });
   } 
 
-  // For the interactive map
-    handleLocationMouseOver(event) {
-      const pointLoc = getLocationName(event);
-      this.setState({ pointedLocation: pointLoc });
-    }
-
-    handleLocationMouseOut() {
-      this.setState({ pointedLocation: null });
-    }
-
-    handleLocationClick(event) {
-      const clickedLocation = getLocationName(event);
-      const clickedLocationId = getLocationId(event);
-      this.setState({ clickedLocation: clickedLocation });
-      window.open(this.links[clickedLocationId], '_blank');
-    }
-
-    handleLocationFocus(event) {
-      const focusedLocation = getLocationName(event);
-      this.setState({ focusedLocation: focusedLocation });
-    }
-
-    handleLocationBlur() {
-      this.setState({ focusedLocation: null });
-    }
 
   render() {
     return (
         <div>
             <h2>
-          This is prediction.
+              This is prediction.
             </h2>
             <form noValidate autoComplete="off" className="formStyle">
-                    {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
-                    <TextField id="outlined-basic" label="State" value={this.state.stateForPredict} onChange={this.onChangeSaveState} variant="outlined"/>
+              {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
+              <TextField id="outlined-basic" label="State" value={this.state.stateForPredict} onChange={this.onChangeSaveState} variant="outlined"/>
             </form>
             <Button onClick={this.predictThisState}>
-          Predict the state
+              Predict the state
             </Button>
-        <div style={{ display: "flex", justifyContent: "center", height:"10rem", marginBottom:"2rem"}}>
-        <img src={this.state.imgToShow[this.state.index]} alt= ""/>
+            <div style={{ display: "flex", justifyContent: "center", height:"10rem", marginBottom:"2rem"}}>
+              <img src={this.state.imgToShow[this.state.index]} alt= ""/>
+            </div>
         </div>
-            
-
-            <div style={{ display: "flex", justifyContent: "center", height:"43rem", marginBottom:"2rem"}}>
-
-              <SVGMap map={USA}
-                  type="link"
-              onLocationMouseOver={this.handleLocationMouseOver}
-              onLocationMouseOut={this.handleLocationMouseOut}
-              onLocationClick={this.handleLocationClick}
-              onLocationFocus={this.handleLocationFocus}
-              onLocationBlur={this.handleLocationBlur} />
-        </div>
-        <Typography className="examples__block__map__tooltip" style={this.state.tooltipStyle}>
-						Region: {this.state.pointedLocation}
-				</Typography>
-      </div>
-      
-
       
     )
   }
