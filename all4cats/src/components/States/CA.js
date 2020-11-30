@@ -10,10 +10,32 @@ export default class Prediction extends Component {
 
     
     this.state = {
-
+      time: ""
     };
 
   }
+
+  predictThisState() {
+    console.log("clicked search");
+    if (this.state.stateForPredict == "CA") {
+      this.setState({
+        index : 0
+      })
+    } else if (this.state.stateForPredict == "TX") {
+      this.setState({
+        index : 1
+      })
+    }
+ 
+    
+  }
+
+  onChangeSaveState(e) {
+    const state = e.target.value;
+        this.setState({
+          stateForPredict: state
+        });
+  } 
 
 
   render() {
@@ -38,6 +60,16 @@ export default class Prediction extends Component {
           />
   
         </div>
+        <div>
+        <form noValidate autoComplete="off" className="formStyle">
+              {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
+              <TextField id="outlined-basic" label="State" value={this.state.stateForPredict} onChange={this.onChangeSaveState} variant="outlined"/>
+            </form>
+            <Button onClick={this.predictThisState}>
+                Predict the state
+            </Button>
+        </div>
+
       </div>
     )
   }
