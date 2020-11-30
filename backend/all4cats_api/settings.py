@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Django REST framework 
+    # Django REST framework
     'rest_framework',
     # app
     'all4cats.apps.All4CatsConfig',

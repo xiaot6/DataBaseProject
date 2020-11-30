@@ -35,8 +35,15 @@ class PriceDataService {
   }
 
   getStateAvgPrice(state) {
-    return http.get(`/price/${state}`);
+    return http.get(`/stateAvg/${state}`);
   }
+
+  //-----University----//
+
+  getUniversityAvgPrice(university) {
+    return http.get(`/university/${university}`);
+  }
+
 }
 
 export default new PriceDataService();

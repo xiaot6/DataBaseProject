@@ -8,7 +8,7 @@ import USA from "@svg-maps/usa";
 import { SVGMap } from "react-svg-map";
 import "./Price.css";
 
-import { getLocationId, getLocationName } from './utils';
+import { getLocationId, getLocationName, locationMap } from './utils';
 
 import { Link } from "react-router-dom";
 
@@ -59,6 +59,7 @@ export default class Price extends Component {
             cityForSearch: "",
             valueForSearch: null,
             priceArrayJSON: [],
+            stateAvgPrice: null,
             // currentTutorial: null,
             // currentIndex: -1,
             // states for interactive map
@@ -290,11 +291,24 @@ export default class Price extends Component {
     // for map:
 	handleLocationMouseOver(event) {
 		const pointLoc = getLocationName(event);
-		this.setState({ pointedLocation: pointLoc });
+        this.setState({ pointedLocation: pointLoc });
+        PriceDataService.getStateAvgPrice(locationMap[pointLoc])
+        .then(response => {
+            console.log(response);
+            this.setState({
+                stateAvgPrice: response.data.value
+            });
+        })
+        .catch(e => {
+            console.log(e);
+        });
 	}
 
 	handleLocationMouseOut() {
-		this.setState({ pointedLocation: null });
+        this.setState({ 
+            pointedLocation: null,
+            stateAvgPrice: null,
+        });
 	}
 
 	handleLocationClick(event) {
@@ -391,6 +405,9 @@ export default class Price extends Component {
                 <Typography className="examples__block__map__tooltip" style={this.state.tooltipStyle}>
 						Region: {this.state.pointedLocation}
 				</Typography>
+                <Typography>
+                        Average Price: {this.state.stateAvgPrice}
+                </Typography>
                 <Typography class = "welcome">
                     CS 411 Final Project - All4Cats.
                 </Typography>
