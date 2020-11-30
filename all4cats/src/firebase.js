@@ -38,14 +38,16 @@ export const generateUserDocument = async (user, display_email) => {
     displayName = display_email;
   }
 
-  try {
-    await userRef.set({
-      displayName,
-      email,
-    });
-  } catch (error) {
-    console.error("Error creating user document", error);
-  }
+    if (!(await userRef.once('value')).exists()) { 
+        try {
+            await userRef.set({
+            displayName,
+            email,
+            });
+        } catch (error) {
+            console.error("Error creating user document", error);
+        }
+    }
 
   return getUserDocument(user.uid);
 };
