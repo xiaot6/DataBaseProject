@@ -1,6 +1,6 @@
 import http from "../http-common";
 
-class PriceDataService {
+class PredictService {
   //-----All Prices----//
 
   getAll() {
@@ -35,15 +35,8 @@ class PriceDataService {
   }
 
   getStateAvgPrice(state) {
-    return http.get(`/stateAvg/${state}`);
+    return http.get(`/price/${state}`);
   }
-
-  //-----University----//
-
-  getUniversityAvgPrice(university) {
-    return http.get(`/university/${university}`);
-  }
-
 }
 
-export default new PriceDataService();
+export default new PredictService();
