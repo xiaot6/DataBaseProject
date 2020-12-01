@@ -23,7 +23,8 @@ export default class Prediction extends Component {
     
       predictThisData() {
         console.log("clicked");
-        const state = parseFloat(this.state.monthForPredict)*  parseFloat(this.state.yearForPredict)
+        const x = parseFloat(this.state.monthForPredict) + (parseFloat(this.state.yearForPredict) - 2005) * 12;
+        const state = 169953.69219309723 + -1428.96078561 * x + 8.34600635*x*x
         this.setState({
           predictedPrice: state
         });
