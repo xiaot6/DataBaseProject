@@ -84,7 +84,7 @@ export const addFavoriteHouse = async (user, houseId) => {
   return getUserDocument(user.uid);
 };
 
-export const addFavoriteLayoutAndType = async (user, bedrooms, bathrooms, upperPrice, lowerPrice) => {
+export const addFavoriteLayoutAndType = async (user, bedrooms, bathrooms, lowerPrice, upperPrice) => {
   if (!user) {
     return;
   }
@@ -96,10 +96,10 @@ export const addFavoriteLayoutAndType = async (user, bedrooms, bathrooms, upperP
       bedrooms,
       bathrooms,
     });
-    
+
     await priceRef.set({
-      upperPrice,
       lowerPrice,
+      upperPrice,
     });
   } catch (error) {
     console.error("Error adding favorite layout", error);
