@@ -78,11 +78,6 @@ export default class Price extends Component {
         };
 
         this.links = {
-			"al": "https://wiki.illinois.edu/wiki/display/CS411AAFA20/All4Cat",
-            "ak": "https://wiki.illinois.edu/wiki/display/CS411AAFA20/All4Cat",
-			"as": 'https://en.wikipedia.org/wiki/Brittany_(administrative_region)',
-			"az": 'https://en.wikipedia.org/wiki/Centre-Val_de_Loire',
-			"ar": 'https://en.wikipedia.org/wiki/Corsica',
             "ca": './states/CA',
             "fl": './states/FL',
             "ga": './states/GA',
@@ -94,10 +89,46 @@ export default class Price extends Component {
             "ph": './states/OH',
             "pa": './states/PA',
             "tx": './states/TX',
-			"co": 'https://en.wikipedia.org/wiki/Hauts-de-France',
-			"ct": 'https://en.wikipedia.org/wiki/%C3%8Ele-de-France',
-
-		};
+            "ak": './states/AK',
+            "al": './states/AL',
+            "ar": './states/AR',
+            "az": './states/AZ',
+            "co": './states/CO',
+            "ct": './states/DC',
+            "de": './states/DE',
+            "hi": './states/HI',
+            "ia": './states/IA',
+            "id": './states/ID',
+            "in": './states/IN',
+            "ks": './states/KS',
+            "ky": './states/KY',
+            "la": './states/LA',
+            "ma": './states/MA',
+            "md": './states/MD',
+            "me": './states/ME',
+            "mn": './states/MN',
+            "mo": './states/MO',
+            "ms": './states/MS',
+            "mt": './states/MT',
+            "mv": './states/MV',
+            "my": './states/MY',
+            "nd": './states/ND',
+            "ne": './states/NE',
+            "nh": './states/NH',
+            "nm": './states/NM',
+            "nv": './states/NV',
+            "ok": './states/OK',
+            "or": './states/OR',
+            "ri": './states/RI',
+            "sc": './states/SC',
+            "sd": './states/SD',
+            "tn": './states/TN',
+            "ut": './states/UT',
+            "va": './states/VA',
+            "vt": './states/VT',
+            "wa": './states/WA',
+            "wi": './states/WI'
+              };
     }
 
     // componentDidMount() {
