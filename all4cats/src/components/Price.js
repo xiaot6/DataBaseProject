@@ -476,9 +476,6 @@ export default class Price extends Component {
         )
 
     }
-
-    
-    
 }
  
 
