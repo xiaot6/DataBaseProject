@@ -2,41 +2,14 @@ import http from "../http-common";
 
 class PredictService {
   //-----All Prices----//
-
-  getAll() {
-    return http.get("/price");
+  predictCA(month, year) {
+    return http.get(`/predictCA/${month}/${year}`, month, year);
   }
 
-  // ```data``` should be a json format instead of a single attribute
-  createAll(data) {
-    return http.post("/price", data);
-  }
+  // getByDateAndZip(date, zip) {
+  //   return http.get(`/price/${date}/${zip}`);
+  // }
 
-  deleteAll() {
-    return http.delete(`/price`);
-  }
-
-  //-----Date + Zip Code----//
-  getByDateAndZip(date, zip) {
-    return http.get(`/price/${date}/${zip}`);
-  }
-
-  updateByDateAndZip(date, zip, data) {
-    return http.put(`/price/${date}/${zip}`, data);
-  }
-
-  deleteByDateAndZip(date, zip) {
-    return http.delete(`/price/${date}/${zip}`);
-  }
-
-  //-----Date + State + City----//
-  getByDateAndStateAndCity(date, state, city) {
-    return http.get(`/price/${date}/${state}/${city}`);
-  }
-
-  getStateAvgPrice(state) {
-    return http.get(`/price/${state}`);
-  }
 }
 
 export default new PredictService();
