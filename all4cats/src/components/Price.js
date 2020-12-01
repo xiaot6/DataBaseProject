@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import logo from '../assets/logo_transparent.png';
 import {Typography, Button, TextField, List, ListItem, ListItemText} from '@material-ui/core'
 import PriceDataService from "../services/price.service";
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 import ReactDOM from "react-dom";
 import USA from "@svg-maps/usa";
@@ -9,6 +11,7 @@ import { SVGMap } from "react-svg-map";
 import "./Price.css";
 
 import { getLocationId, getLocationName, locationMap } from './utils';
+import { universityList } from './utils';
 
 import { Link } from "react-router-dom";
 
@@ -32,8 +35,10 @@ export default class Price extends Component {
         this.searchPriceByDateStateCity = this.searchPriceByDateStateCity.bind(this);
         this.onChangeSaveCity = this.onChangeSaveCity.bind(this);
         this.onChangeSaveState = this.onChangeSaveState.bind(this);
+        this.onChangeSaveUniversity = this.onChangeSaveUniversity.bind(this);
         //avg
         this.searchStateAvgPrice = this.searchStateAvgPrice.bind(this);
+        this.searchUniverityPrice = this.searchUniverityPrice.bind(this);
 
     
         // For the interactive map
@@ -58,6 +63,7 @@ export default class Price extends Component {
             stateForSearch: "",
             cityForSearch: "",
             valueForSearch: null,
+            universityForSearch: null,
             priceArrayJSON: [],
             stateAvgPrice: null,
             // currentTutorial: null,
@@ -127,6 +133,12 @@ export default class Price extends Component {
             stateForSearch: state
         });
     }
+    onChangeSaveUniversity(e) {
+        const university = e.target.value;
+        this.setState({
+            universityForSearch: university
+        });
+    }
 
     searchPriceByDateAndZip() {
         console.log("clicked search");
@@ -143,7 +155,6 @@ export default class Price extends Component {
     }
 
     searchPriceByDateStateCity() {
-        console.log("clicked");
         PriceDataService.getByDateAndStateAndCity(this.state.dateForSearch, this.state.stateForSearch, this.state.cityForSearch)
             .then(response => {
             this.setState({
@@ -165,6 +176,19 @@ export default class Price extends Component {
                 priceArrayJSON: [response.data]
             });
             console.log(response.data);
+            })
+            .catch(e => {
+            console.log(e);
+        });
+    }
+
+    searchUniverityPrice() {
+        PriceDataService.getUniversityAvgPrice(this.state.universityForSearch)
+            .then(response => {
+                this.setState({
+                    priceArrayJSON: [response.data]
+                });
+                console.log(response.data);
             })
             .catch(e => {
             console.log(e);
@@ -347,6 +371,17 @@ export default class Price extends Component {
                     <TextField id="outlined-basic3" label="Price" value={this.state.valueForSearch} onChange={this.onChangeSaveValue} variant="outlined"/>
                     <TextField id="outlined-basic4" label="City" value={this.state.cityForSearch} onChange={this.onChangeSaveCity} variant="outlined"/>
                     <TextField id="outlined-basic5" label="State" value={this.state.stateForSearch} onChange={this.onChangeSaveState} variant="outlined"/>
+                    {/* <TextField id="outlined-basic6" label="University" value={this.state.universityForSearch} onChange={this.onChangeSaveUniversity} variant="outlined"/> */}
+                    <Select
+                    value={this.state.universityForSearch}
+                    onChange={this.onChangeSaveUniversity}
+                    >
+                    {universityList.map((university) => (
+                        <MenuItem value={university}>
+                        {university}
+                        </MenuItem>
+                    ))}
+                    </Select>
                 </form>
                 <Button onClick={this.searchPriceByDateAndZip}>
                     Search One by Date and Zipcode
@@ -359,6 +394,9 @@ export default class Price extends Component {
                 </Button>
                 <Button onClick={this.searchStateAvgPrice}>
                     Show State Avg_Price
+                </Button>
+                <Button onClick={this.searchUniverityPrice}>
+                    Show University Price
                 </Button>
                 <Button onClick={this.refreshList}>
                     Refresh List
