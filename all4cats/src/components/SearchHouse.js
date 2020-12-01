@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import HotelIcon from '@material-ui/icons/LocalHotelOutlined';
+import BathtubIcon from '@material-ui/icons/BathtubOutlined';
 import { GridList, GridListTile, Grid } from '@material-ui/core'
 
 export default class SearchHouse extends Component {
@@ -109,8 +111,13 @@ export default class SearchHouse extends Component {
                                         <Grid container spacing={2}>
                                             <Grid item xs={6}>
                                                 <Typography>Company: {houseJSON.company}</Typography>
-                                                <Typography>Floor Plan: {houseJSON.floor_plan}</Typography>
-                                                <Typography>Number of Rooms: {houseJSON.number_of_rooms}</Typography>
+                                                <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                                                <Typography>{houseJSON.number_of_rooms}</Typography>
+                                                <HotelIcon />
+                                                <Typography>{houseJSON.floor_plan}</Typography>
+                                                <BathtubIcon />
+                                                </div>
+                                                {/* <Typography></Typography> */}
                                             </Grid>
                                             <Grid item xs={6}>
                                                 <Typography>Address: {houseJSON.address}</Typography>
