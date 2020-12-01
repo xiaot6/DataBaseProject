@@ -9,6 +9,7 @@ import CA from '../assets/CA.png';
 import TX from '../assets/TX.png';
 // import locationMap from './utils.js';
 import Plot from 'react-plotly.js';
+import CAPredict from './States/CA'
 
 
 export default class Prediction extends Component {
@@ -29,6 +30,7 @@ export default class Prediction extends Component {
       imgToShow: [CA, TX],
       x: [],
       y:[],
+      clicked: false,
       tooltipStyle: {
         display: getLocationName
       }
@@ -128,8 +130,8 @@ export default class Prediction extends Component {
     // const clickedLocation = getLocationName(event);
 		// const clickedLocationId = getLocationId(event);
     // this.setState({ clickedLocation: clickedLocation });
-    
-		window.open(this.links[this.state.stateForPredict.toLowerCase()], '_blank');
+    this.setState({clicked: true});
+		// window.open(this.links[this.state.stateForPredict.toLowerCase()], '_blank');
  
     
   }
@@ -145,40 +147,43 @@ export default class Prediction extends Component {
 
   render() {
     return (
-        <div>
-            <h2>
-                This is prediction.
-            </h2>
-            <form noValidate autoComplete="off" className="formStyle">
-              {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
-              <TextField id="outlined-basic" label="State" value={this.state.stateForPredict} onChange={this.onChangeSaveState} variant="outlined"/>
-            </form>
-            <Button onClick={this.predictThisState}>
-          Predict the state
-          
-            </Button>
-        <div>
-          <p>
-            Please use Postal Abbreviations
-          </p>
-          <p>
-            For instance: "CA", "IL", "NY", "TX","FL", "PA", "NJ", "GA", "MI", "NC", "OH"
-          </p>
-          <p>
-            Or you can click on the map below
-          </p>
-        </div>
+      <div>
+        <h2>
+            This is prediction.
+        </h2>
         
-        <div style={{ display: "flex", justifyContent: "center", height:"43rem", marginBottom:"2rem"}}>
-          <SVGMap map={USA}
-                  type="link"
-              onLocationMouseOver={this.handleLocationMouseOver}
-              onLocationMouseOut={this.handleLocationMouseOut}
-              onLocationClick={this.handleLocationClick}
-              onLocationFocus={this.handleLocationFocus}
-              onLocationBlur={this.handleLocationBlur} />
-        </div>
+        {
+        this.state.clicked ?
+        <div> 
+          <CAPredict>
 
+          </CAPredict>
+          <Button onClick={() => {this.setState({clicked: false})}}>
+            Back
+          </Button>
+        </div>
+        : 
+        <div> 
+          <form noValidate autoComplete="off" className="formStyle">
+            {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
+            <TextField id="outlined-basic" label="State" value={this.state.stateForPredict} onChange={this.onChangeSaveState} variant="outlined"/>
+          </form>
+          <Button onClick={this.predictThisState}>
+            Predict the state
+          </Button>
+          <div>
+            <p>
+              Please use Postal Abbreviations
+            </p>
+            <p>
+              For instance: "CA", "IL", "NY", "TX","FL", "PA", "NJ", "GA", "MI", "NC", "OH"
+            </p>
+            <p>
+              Or you can click on the map below
+            </p>
+          </div>
+        </div> 
+        }
       </div>
     )
   }
