@@ -20,6 +20,17 @@ import User from "./components/User";
 import UserProvider from "./providers/UserProvider";
 import { auth, provider } from './firebase.js'
 
+import CA from "./components/States/CA";
+import FL from "./components/States/FL";
+import GA from "./components/States/GA";
+import IL from "./components/States/IL";
+import MI from "./components/States/MI";
+import NC from "./components/States/NC";
+import NY from "./components/States/NY";
+import NJ from "./components/States/NJ";
+import OH from "./components/States/OH";
+import PA from "./components/States/PA";
+import TX from "./components/States/TX";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -113,6 +124,17 @@ function App() {
             <Route path="/searchhouse" component={SearchHouse} />
             <Route path="/prediction" component={Prediction} />
             <Route path="/user" component={User} />
+            <Route path="/states/CA" component={CA} />
+            <Route path="/states/FL" component={FL} />
+            <Route path="/states/GA" component={GA} />
+            <Route path="/states/IL" component={IL} />
+            <Route path="/states/MI" component={MI} />
+            <Route path="/states/NC" component={NC} />
+            <Route path="/states/NJ" component={NJ} />
+            <Route path="/states/NY" component={NY} />
+            <Route path="/states/OH" component={OH} />
+            <Route path="/states/PA" component={PA} />
+            <Route path="/states/TX" component={TX} />
           </Switch>
         </div>
       </UserProvider>
