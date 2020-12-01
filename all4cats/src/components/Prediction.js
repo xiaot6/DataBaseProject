@@ -9,6 +9,7 @@ import CA from '../assets/CA.png';
 import TX from '../assets/TX.png';
 // import locationMap from './utils.js';
 import Plot from 'react-plotly.js';
+import CAPredict from './States/CA'
 
 
 export default class Prediction extends Component {
@@ -151,8 +152,12 @@ export default class Prediction extends Component {
             This is prediction.
         </h2>
         
-        {this.state.clicked ?
+        {
+        this.state.clicked ?
         <div> 
+          <CAPredict>
+
+          </CAPredict>
           <Button onClick={() => {this.setState({clicked: false})}}>
             Back
           </Button>
