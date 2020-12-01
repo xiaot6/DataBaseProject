@@ -5,38 +5,43 @@ import Plot from 'react-plotly.js';
 
 
 export default class Prediction extends Component {
-  constructor(props) {
-    super(props);
-
+    constructor(props) {
+        super(props);
     
-    this.state = {
-      time: ""
-    };
-
-  }
-
-  predictThisState() {
-    console.log("clicked search");
-    if (this.state.stateForPredict == "CA") {
-      this.setState({
-        index : 0
-      })
-    } else if (this.state.stateForPredict == "TX") {
-      this.setState({
-        index : 1
-      })
-    }
- 
+        this.predictThisData = this.predictThisData.bind(this);
+        this.onChangeSaveMonth = this.onChangeSaveMonth.bind(this);
+        this.onChangeSaveYear = this.onChangeSaveYear.bind(this);
+        this.state = {
+          monthForPredict: "",
+          yearForPredict: "",
+          priceArrayJSON: [],
+          predictedPrice: ""
     
-  }
-
-  onChangeSaveState(e) {
-    const state = e.target.value;
+        };
+    
+      }
+    
+      predictThisData() {
+        console.log("clicked");
+        const state = parseFloat(this.state.monthForPredict)*  parseFloat(this.state.yearForPredict)
         this.setState({
-          stateForPredict: state
+          predictedPrice: state
         });
-  } 
-
+      }
+    
+      onChangeSaveMonth(e) {
+        const state = e.target.value;
+            this.setState({
+              monthForPredict: state
+            });
+      } 
+    
+      onChangeSaveYear(e) {
+        const state = e.target.value;
+            this.setState({
+              yearForPredict: state
+            });
+      } 
 
   render() {
     return (
@@ -63,11 +68,19 @@ export default class Prediction extends Component {
         <div>
         <form noValidate autoComplete="off" className="formStyle">
               {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
-              <TextField id="outlined-basic" label="State" value={this.state.stateForPredict} onChange={this.onChangeSaveState} variant="outlined"/>
-            </form>
-            <Button onClick={this.predictThisState}>
-                Predict the state
-            </Button>
+            <TextField id="outlined-basic10" label="Month" value={this.state.monthForPredict} onChange={this.onChangeSaveMonth} variant="outlined" />
+            <TextField id="outlined-basic11" label="Year" value={this.state.yearForPredict} onChange={this.onChangeSaveYear} variant="outlined"/>
+        </form>
+        <Button onClick={this.predictThisData}>
+            Predict the state at this Month-Year
+        </Button>
+        <Typography>
+              Predicted State Average Price: {this.state.predictedPrice}
+        </Typography>
+        
+            
+          
+          
         </div>
 
       </div>
