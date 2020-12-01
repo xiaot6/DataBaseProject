@@ -16,7 +16,7 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const provider = new firebase.auth.GoogleAuthProvider();
+export const provider = new firebase.auth.GoogleAuthProvider();
 
 export const auth = firebase.auth();
 export const fb = firebase.database();
@@ -38,16 +38,15 @@ export const generateUserDocument = async (user, display_email) => {
     displayName = display_email;
   }
 
-    if (!(await userRef.once('value')).exists()) { 
-        try {
-            await userRef.set({
-            displayName,
-            email,
-            });
-        } catch (error) {
-            console.error("Error creating user document", error);
-        }
-    }
+  try {
+    await userRef.set({
+      displayName,
+      email,
+      favorite_house: [],
+    });
+  } catch (error) {
+    console.error("Error creating user document", error);
+  }
 
   return getUserDocument(user.uid);
 };
@@ -60,9 +59,27 @@ const getUserDocument = async uid => {
     console.log(userDocument.val());
     return {
       uid,
-      ...userDocument.val()
+      ...userDocument.val(),
     };
   } catch (error) {
     console.error("Error fetching user", error);
   }
+};
+
+export const addFavoriteHouse = async (user, favoriteHouse) => {
+  if (!user) {
+    return;
+  }
+  const userRef = fb.ref(`users/${user.uid}/favoriteHouse`);
+  var newFavRef = userRef.push();
+
+  try {
+    await newFavRef.set({
+      favoriteHouse,
+    });
+  } catch (error) {
+    console.error("Error adding favorite house", error);
+  }
+
+  return getUserDocument(user.uid);
 };

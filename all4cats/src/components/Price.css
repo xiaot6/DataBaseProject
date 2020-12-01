@@ -10,6 +10,7 @@
   fill: #284b53;
   cursor: pointer;
 }
+
 .svg-map__location:focus,
 .svg-map__location:hover {
   fill: #218c74;

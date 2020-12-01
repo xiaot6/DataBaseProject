@@ -65,7 +65,7 @@ export default class Price extends Component {
             valueForSearch: null,
             universityForSearch: null,
             priceArrayJSON: [],
-            stateAvgPrice: null,
+            stateAvgPrice: 'No data',
             // currentTutorial: null,
             // currentIndex: -1,
             // states for interactive map
@@ -83,7 +83,17 @@ export default class Price extends Component {
 			"as": 'https://en.wikipedia.org/wiki/Brittany_(administrative_region)',
 			"az": 'https://en.wikipedia.org/wiki/Centre-Val_de_Loire',
 			"ar": 'https://en.wikipedia.org/wiki/Corsica',
-			"ca": 'https://en.wikipedia.org/wiki/Grand_Est',
+            "ca": './states/CA',
+            "fl": './states/FL',
+            "ga": './states/GA',
+            "il": './states/IL',
+            "mi": './states/MI',
+            "nc": './states/NC',
+            "nj": './states/NJ',
+            "ny": './states/NY',
+            "ph": './states/OH',
+            "pa": './states/PA',
+            "tx": './states/TX',
 			"co": 'https://en.wikipedia.org/wiki/Hauts-de-France',
 			"ct": 'https://en.wikipedia.org/wiki/%C3%8Ele-de-France',
 
@@ -331,7 +341,7 @@ export default class Price extends Component {
 	handleLocationMouseOut() {
         this.setState({ 
             pointedLocation: null,
-            stateAvgPrice: null,
+            stateAvgPrice: 'No data',
         });
 	}
 
@@ -422,7 +432,6 @@ export default class Price extends Component {
                             {this.state.priceArrayJSON &&
                             this.state.priceArrayJSON.map((priceJSON, index) => (
                                 <ListItem button
-                                    // onClick={() => {this.setActiveTutorial(priceJSON, index)}}
                                     onClick={() => {}}
                                     key={index}
                                 >
@@ -433,7 +442,6 @@ export default class Price extends Component {
                     </div>
                 </div>
                 <div style={{ display: "flex", justifyContent: "center", height:"43rem", marginBottom:"2rem"}}>
-                {/* <div className="examples__block__map examples__block__map--usa"> */}
                     <SVGMap map={USA}
                         type="link"
 						onLocationMouseOver={this.handleLocationMouseOver}
