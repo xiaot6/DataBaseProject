@@ -66,7 +66,7 @@ const getUserDocument = async uid => {
   }
 };
 
-export const addFavoriteHouse = async (user, favoriteHouse) => {
+export const addFavoriteHouse = async (user, houseId) => {
   if (!user) {
     return;
   }
@@ -75,7 +75,7 @@ export const addFavoriteHouse = async (user, favoriteHouse) => {
 
   try {
     await newFavRef.set({
-      favoriteHouse,
+      houseId,
     });
   } catch (error) {
     console.error("Error adding favorite house", error);
