@@ -83,3 +83,27 @@ export const addFavoriteHouse = async (user, houseId) => {
 
   return getUserDocument(user.uid);
 };
+
+export const addFavoriteLayoutAndType = async (user, bedrooms, bathrooms, upperPrice, lowerPrice) => {
+  if (!user) {
+    return;
+  }
+  const layOutRef = fb.ref(`users/${user.uid}/favoriteLayout`);
+  const priceRef = fb.ref(`users/${user.uid}/favoritePrice`);
+
+  try {
+    await layOutRef.set({
+      bedrooms,
+      bathrooms,
+    });
+    
+    await priceRef.set({
+      upperPrice,
+      lowerPrice,
+    });
+  } catch (error) {
+    console.error("Error adding favorite layout", error);
+  }
+
+  return getUserDocument(user.uid);
+};

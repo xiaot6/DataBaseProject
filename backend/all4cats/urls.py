@@ -12,4 +12,5 @@ urlpatterns = [
     # path('api/all4cats/published/', views.all4cats_list_published)
     path('api/housebyprice/<str:s>', views.get_house_by_price),
     path('api/housebybedrooms/<str:s>', views.get_house_by_bedrooms)
+    # path('api/predictCA/<str:d>/<str:d>', views.predictCA)
 ]
