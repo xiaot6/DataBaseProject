@@ -135,6 +135,14 @@ const ProfilePage = () => {
               </Typography>
             </div>
         </Card>
+
+        <Card style={{marginTop: "2rem"}} variant="outlined">
+            <div style={{display: 'flex', flexDirection: "column", justifyContent:"flex-start"}}>
+            <h2>
+              My Favorite Houses
+            </h2>
+            </div>
+        </Card>
       </div>
     </div>
   ) 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import HouseDataService from "../services/house.service";
 import {Button, TextField, List} from '@material-ui/core'
-import {auth, addFavoriteHouse} from '../firebase';
+import {auth, addFavoriteHouse, deleteFavoriteHouse} from '../firebase';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -80,6 +80,9 @@ export default class SearchHouse extends Component {
                 <h2>Search your favorite houses</h2>
                 <Button onClick = {() => {addFavoriteHouse(this.state.user, "2333")}}>
                     Add Fav
+                </Button>
+                <Button onClick = {() => {deleteFavoriteHouse(this.state.user, "2333")}}>
+                    Delete Fav
                 </Button>
                 <form noValidate autoComplete="off" className="formStyle">
                     {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
