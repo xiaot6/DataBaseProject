@@ -52,10 +52,13 @@ const ProfilePage = () => {
     setUpperPrice(event.target.value);
   };
 
-  function onClickSavePreferences(user, bed, bath, lower, upper) {
-    console.log(bed);
-    console.log(bath);
-    addFavoriteLayoutAndType(user, bed, bath, lower, upper);
+  async function onClickSavePreferences(user, bed, bath, lower, upper) {
+    try {
+      await addFavoriteLayoutAndType(user, bed, bath, lower, upper);
+    } catch (error) {
+      console.error("Error adding favorites", error);
+    }
+    window.location.reload();
   };
 
   return (
@@ -81,38 +84,56 @@ const ProfilePage = () => {
             <h2>
               My Preference
             </h2>
-            <Typography>
-              Favorite Layout: 
-            </Typography>
-            <div style={{margin: "2px 15px", display:'flex', flexDirection:'row', justifyContent:'space-around', alignItems:'center'}}>
-              <TextField margin='dense' size="small" style={{width: "40px"}} value={bedrooms} onChange={onChangeSaveBedrooms} variant="outlined">
-              </TextField>
+
+            <div style={{display: user.favoriteLayout == null ? "inline" : "none"}}>
               <Typography>
-                Bedrooms
+                Favorite Layout: 
               </Typography>
-              <TextField margin='dense' size="small" style={{width: "40px"}} value={bathrooms} onChange={onChangeSaveBathrooms} variant="outlined"></TextField>
-              <Typography>
-                Bathrooms
+              <div style={{margin: "2px 15px", display:'flex', flexDirection:'row', justifyContent:'space-around', alignItems:'center'}}>
+                <TextField margin='dense' size="small" style={{width: "40px"}} value={bedrooms} onChange={onChangeSaveBedrooms} variant="outlined">
+                </TextField>
+                <Typography>
+                  Bedrooms
+                </Typography>
+                <TextField margin='dense' size="small" style={{width: "40px"}} value={bathrooms} onChange={onChangeSaveBathrooms} variant="outlined"></TextField>
+                <Typography>
+                  Bathrooms
+                </Typography>
+              </div>
+
+              <Typography style={{marginTop: "20px", marginBottom: "10px"}}>
+                Favorite Price Range: 
               </Typography>
+              <div style={{margin: "2px 15px", display:'flex', flexDirection:'row', justifyContent:'space-around', alignItems:'center'}}>
+                <Typography>
+                  Lower
+                </Typography>
+                <OutlinedInput startAdornment={<InputAdornment position="start">$</InputAdornment>} margin='dense' size="small" style={{width: "90px"}} value={lowerPrice} onChange={onChangeSaveLowerPrice} variant="outlined"></OutlinedInput>
+                <Typography>
+                  Upper
+                </Typography>
+                <OutlinedInput startAdornment={<InputAdornment position="start">$</InputAdornment>} margin='dense' size="small" style={{width: "90px"}} value={upperPrice} onChange={onChangeSaveUpperPrice} variant="outlined"></OutlinedInput>
+              </div>
+
+              <Button variant="contained" color="primary" style={{margin: "15px 0px"}} onClick={() => onClickSavePreferences(user, bedrooms, bathrooms, lowerPrice, upperPrice)}>
+                Save Preferences
+              </Button>
             </div>
 
-            <Typography style={{marginTop: "20px", marginBottom: "10px"}}>
-              Favorite Price Range: 
-            </Typography>
-            <div style={{margin: "2px 15px", display:'flex', flexDirection:'row', justifyContent:'space-around', alignItems:'center'}}>
+            <div style={{display: user.favoriteLayout == null ? "none" : "inline"}}>
+              <h5 style={{fontSize:"1rem"}}>
+                Favorite Layout: 
+              </h5>
               <Typography>
-                Lower
+                {user.favoriteLayout && user.favoriteLayout.bedrooms} Bedrooms { user.favoriteLayout && user.favoriteLayout.bathrooms} Bathrooms
               </Typography>
-              <OutlinedInput startAdornment={<InputAdornment position="start">$</InputAdornment>} margin='dense' size="small" style={{width: "90px"}} value={lowerPrice} onChange={onChangeSaveLowerPrice} variant="outlined"></OutlinedInput>
-              <Typography>
-                Upper
+              <h5 style={{fontSize:"1rem"}}>
+                Favorite Price Range: 
+              </h5>
+              <Typography style={{marginBottom: "20px"}}>
+                Lower: {user.favoritePrice && user.favoritePrice.lowerPrice} ~ Upper: { user.favoritePrice && user.favoritePrice.upperPrice}
               </Typography>
-              <OutlinedInput startAdornment={<InputAdornment position="start">$</InputAdornment>} margin='dense' size="small" style={{width: "90px"}} value={upperPrice} onChange={onChangeSaveUpperPrice} variant="outlined"></OutlinedInput>
             </div>
-
-            <Button variant="contained" color="primary" style={{margin: "15px 0px"}} onClick={() => onClickSavePreferences(user, bedrooms, bathrooms, lowerPrice, upperPrice)}>
-              Save Preferences
-            </Button>
         </Card>
       </div>
     </div>
