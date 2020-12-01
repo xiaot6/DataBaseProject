@@ -59,7 +59,7 @@ export default class Price extends Component {
             cityForSearch: "",
             valueForSearch: null,
             priceArrayJSON: [],
-            stateAvgPrice: null,
+            stateAvgPrice: 'No data',
             // currentTutorial: null,
             // currentIndex: -1,
             // states for interactive map
@@ -307,7 +307,7 @@ export default class Price extends Component {
 	handleLocationMouseOut() {
         this.setState({ 
             pointedLocation: null,
-            stateAvgPrice: null,
+            stateAvgPrice: 'No data',
         });
 	}
 
@@ -395,7 +395,6 @@ export default class Price extends Component {
                     </div>
                 </div>
                 <div style={{ display: "flex", justifyContent: "center", height:"43rem", marginBottom:"2rem"}}>
-                {/* <div className="examples__block__map examples__block__map--usa"> */}
                     <SVGMap map={USA}
                         type="link"
 						onLocationMouseOver={this.handleLocationMouseOver}
