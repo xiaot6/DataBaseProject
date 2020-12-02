@@ -91,7 +91,7 @@ export default class SearchHouse extends Component {
                             justifyContent: 'space-around',
                             overflow: 'hidden',
                             marginTop: "50px"}}>
-                    <GridList cellHeight={325} style={{width: 1000, marginBottom: "100px"}}>
+                    <GridList cellHeight={370} style={{width: 1000, marginBottom: "100px"}}>
                         {this.state.houseArrayJSON &&
                         this.state.houseArrayJSON.map((houseJSON, index) => (
                             <GridListTile key={index} style={{display: 'flex', justifyContent: 'center'}}>

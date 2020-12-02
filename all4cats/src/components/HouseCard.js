@@ -78,7 +78,7 @@ export default class HouseCard extends Component {
     render() {
         const houseJSON = this.state.houseJSON;
         return(
-        <Card style={{width: "400px", height: "325px"}} variant='outlined'>
+        <Card style={{width: "400px", marginTop: "20px"}} variant='outlined'>
             <CardMedia style={{height: 0,
                         paddingTop: '43.25%'}} 
                         image="https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350"/>
