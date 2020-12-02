@@ -211,16 +211,18 @@ def get_house_by_id(request, s):
 
 @api_view(['GET'])
 def get_likes_by_id(request, s):
-    try:
-        houses = House.objects.raw(
-            'SELECT likes FROM all4cats_house WHERE house_id = %s', [s])
-
-    except House.DoesNotExist:
-        return JsonResponse({'message': 'The house does not exist'}, status=status.HTTP_404_NOT_FOUND)
-
+    
     if request.method == 'GET':
-        houses_serializer = HouseSerializer(houses, many=True)
-        return JsonResponse(houses_serializer.data, safe=False)
+
+        cursor = connection.cursor()
+        cursor.execute(
+            'SELECT likes FROM all4cats_house WHERE house_id = %s', [s])
+    
+        like_num = cursor.fetchone()[0]
+        
+        # prices_serializer = PriceSerializer(avg_price)
+        return JsonResponse({'likes': like_num}, safe=False)
+
 
      
 @api_view(['PUT'])

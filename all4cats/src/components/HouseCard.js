@@ -56,7 +56,7 @@ export default class HouseCard extends Component {
             HouseDataService.getLikesById(houseID)
             .then(response => {
                 this.setState({
-                    num_likes: response.data
+                    num_likes: response.data.likes
                 });
                 })
                 .catch(e => {
