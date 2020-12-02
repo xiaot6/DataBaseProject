@@ -72,6 +72,11 @@ const ProfilePage = () => {
       array = snapshot.val();
     });
 
+    // var list = await getListOfData()
+    
+  });
+
+  function getListOfData() {
     var list = [];
 
     for (var i in array) {
@@ -80,13 +85,18 @@ const ProfilePage = () => {
 
       HouseDataService.getHouseById(houseID)
       .then(response => {
-          setHouseArray(response.data);
+        list = [
+          ...list,
+          response.data,
+        ];
+        console.log(list);
       })
       .catch(e => {
         console.log(e);
       });
     }
-  });
+    return list;
+  }
 
   return (
     <div className={classes.root}>
