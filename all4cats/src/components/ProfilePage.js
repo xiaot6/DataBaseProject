@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "../providers/UserProvider";
-import { auth, addFavoriteLayoutAndType } from "../firebase";
+import { fb, auth, addFavoriteLayoutAndType } from "../firebase";
 import {makeStyles} from '@material-ui/core/styles';
-import { Button, Typography, Card, TextField, InputAdornment, OutlinedInput } from "@material-ui/core";
+import { Button, Typography, Card, TextField, InputAdornment, OutlinedInput, List, ListItem, ListItemText } from "@material-ui/core";
+import HouseDataService from "../services/house.service";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +33,9 @@ const ProfilePage = () => {
   const [lowerPrice, setLowerPrice] = React.useState('');
   const [upperPrice, setUpperPrice] = React.useState('');
 
+  const [houseArray, setHouseArray] = React.useState('');
+
+
   console.log(displayName);
   console.log(email);
 
@@ -60,6 +64,29 @@ const ProfilePage = () => {
     }
     window.location.reload();
   };
+
+  useEffect(async () => {
+    var array = null; 
+    await fb.ref(`users/${user.uid}/favoriteHouse`).orderByKey().once("value")
+    .then(function(snapshot) {
+      array = snapshot.val();
+    });
+
+    var list = [];
+
+    for (var i in array) {
+
+      var houseID = array[i].houseId;
+
+      HouseDataService.getHouseById(houseID)
+      .then(response => {
+          setHouseArray(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    }
+  });
 
   return (
     <div className={classes.root}>
@@ -138,9 +165,17 @@ const ProfilePage = () => {
 
         <Card style={{marginTop: "2rem"}} variant="outlined">
             <div style={{display: 'flex', flexDirection: "column", justifyContent:"flex-start"}}>
-            <h2>
-              My Favorite Houses
-            </h2>
+              <h2>
+                My Favorite Houses
+              </h2>
+              {/* <List component="nav">
+                  {houseArray &&
+                  houseArray.map((houseJSON, index) => (
+                      <ListItem>
+                          <ListItemText>{houseJSON.house_id}</ListItemText>
+                      </ListItem>
+                  ))}
+              </List> */}
             </div>
         </Card>
       </div>

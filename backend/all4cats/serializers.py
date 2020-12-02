@@ -29,5 +29,8 @@ class HouseSerializer(serializers.ModelSerializer):
                   'price',
                   'company',
                   'address',
-                  'number_of_rooms',
-                  'floor_plan')
+                  'city',
+                  'state',
+                  'likes',
+                  'num_of_bedrooms',
+                  'num_of_bathrooms')

@@ -98,20 +98,20 @@ def get_price_by_date_state_city(request, d, s, c):
         return JsonResponse(prices_serializer.data, safe=False)
 
 
-@api_view(['GET'])
-def get_state_avg_price(request, s):
-    if request.method == 'GET':
-        # prices = Price.objects.raw(
-        #     'SELECT avg(value) FROM all4cats_price GROUP BY state HAVING state = %s', [s])
-        # prices_serializer = serializers.serialize('json', prices)
-        # return JsonResponse(prices_serializer, safe=False)
-        cursor = connection.cursor()
-        cursor.execute(
-            'SELECT avg(value) as value FROM all4cats_price GROUP BY state HAVING state = %s', [s])
-        avg_price = cursor.fetchone()[0]
-        print(avg_price)
-        # prices_serializer = PriceSerializer(avg_price)
-        return JsonResponse({'value': avg_price}, safe=False)
+# @api_view(['GET'])
+# def get_state_avg_price(request, s):
+#     if request.method == 'GET':
+#         # prices = Price.objects.raw(
+#         #     'SELECT avg(value) FROM all4cats_price GROUP BY state HAVING state = %s', [s])
+#         # prices_serializer = serializers.serialize('json', prices)
+#         # return JsonResponse(prices_serializer, safe=False)
+#         cursor = connection.cursor()
+#         cursor.execute(
+#             'SELECT avg(value) as value FROM all4cats_price GROUP BY state HAVING state = %s', [s])
+#         avg_price = cursor.fetchone()[0]
+#         print(avg_price)
+#         # prices_serializer = PriceSerializer(avg_price)
+#         return JsonResponse({'value': avg_price}, safe=False)
 
 
 @api_view(['GET'])
@@ -187,7 +187,7 @@ def get_house_by_bedrooms(request, s):
 
     try:
         houses = House.objects.raw(
-            'SELECT * FROM all4cats_house WHERE number_of_rooms = %s', [s])
+            'SELECT * FROM all4cats_house WHERE num_of_bedrooms = %s', [s])
 
     except House.DoesNotExist:
         return JsonResponse({'message': 'The house does not exist'}, status=status.HTTP_404_NOT_FOUND)
@@ -195,3 +195,56 @@ def get_house_by_bedrooms(request, s):
     if request.method == 'GET':
         houses_serializer = HouseSerializer(houses, many=True)
         return JsonResponse(houses_serializer.data, safe=False)
+
+@api_view(['GET'])
+def get_house_by_id(request, s):
+    try:
+        houses = House.objects.raw(
+            'SELECT * FROM all4cats_house WHERE house_id = %s', [s])
+
+    except House.DoesNotExist:
+        return JsonResponse({'message': 'The house does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        houses_serializer = HouseSerializer(houses, many=True)
+        return JsonResponse(houses_serializer.data, safe=False)
+
+@api_view(['GET'])
+def get_likes_by_id(request, s):
+    try:
+        houses = House.objects.raw(
+            'SELECT likes FROM all4cats_house WHERE house_id = %s', [s])
+
+    except House.DoesNotExist:
+        return JsonResponse({'message': 'The house does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        houses_serializer = HouseSerializer(houses, many=True)
+        return JsonResponse(houses_serializer.data, safe=False)
+
+     
+@api_view(['PUT'])
+def update_likes_by_id(request, s):
+    try:
+        likes = House.objects.raw(
+            'SELECT likes FROM all4cats_house WHERE house_id = %s', [s])
+
+    except House.DoesNotExist:
+        return JsonResponse({'message': 'The house does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        likes = Price.objects.raw(
+            'SELECT * FROM all4cats_house WHERE house_id = %s', [s])[0]
+
+        likes_data = JSONParser().parse(request)
+        likes_serializer = HouseSerializer(likes, data=likes_data)
+
+        if likes_serializer.is_valid():
+            likes_serializer.save()
+            temp_value = likes_data['likes']
+            with connection.cursor() as cursor:
+                cursor.execute("UPDATE all4cats_price SET likes = %s WHERE house_id = %s", [
+                               temp_value, s])
+            return JsonResponse(likes_serializer.data)
+
+        return JsonResponse(likes_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

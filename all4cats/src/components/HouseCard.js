@@ -11,6 +11,7 @@ import Favorited from '@material-ui/icons/Favorite';
 import HotelIcon from '@material-ui/icons/LocalHotelOutlined';
 import BathtubIcon from '@material-ui/icons/BathtubOutlined';
 import {Grid} from '@material-ui/core'
+import HouseDataService from "../services/house.service";
 import { fb, auth, addFavoriteHouse, deleteFavoriteHouse } from '../firebase';
 
 
@@ -24,6 +25,7 @@ export default class HouseCard extends Component {
             user: props.user,
             houseJSON: props.houseInfo,
             favorited: false,
+            num_likes: 0,
         };
     }
     async componentDidMount() {
@@ -48,7 +50,17 @@ export default class HouseCard extends Component {
                 this.setState({
                     favorited: true,
                 });
-            }
+            }      
+
+            HouseDataService.getLikesById(houseID)
+            .then(response => {
+                this.setState({
+                    num_likes: response.data
+                });
+                })
+                .catch(e => {
+                console.log(e);
+            });
         }
     }
 
@@ -87,23 +99,30 @@ export default class HouseCard extends Component {
                     <Grid item xs={6}>
                         <Typography>Company: {houseJSON.company}</Typography>
                         <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: "10px"}}>
-                        <Typography>{houseJSON.number_of_rooms}</Typography>
+                        <Typography>{houseJSON.num_of_bedrooms}</Typography>
                         <HotelIcon />
-                        <Typography>{houseJSON.floor_plan}</Typography>
+                        <Typography>{houseJSON.num_of_bathrooms}</Typography>
                         <BathtubIcon />
                         </div>
                         {/* <Typography></Typography> */}
                     </Grid>
                     <Grid item xs={6} style={{display: 'flex', flexDirection: 'column', alignItems: 'left'}}>
                         <Typography>Address: {houseJSON.address}</Typography>
+                        <Typography>City: {houseJSON.city}</Typography>
+                        <Typography>State: {houseJSON.state}</Typography>
                         <Typography>Price: ${houseJSON.price}</Typography>
                     </Grid>
                 </Grid>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites" onClick={this.onChangeFavorite}>
-                    {this.state.favorited ? <Favorited color="secondary"/> : <FavoriteIconOutlined/>}
-                </IconButton>
+                <div style={{display: 'flex', flexDirection: 'row', alignItems:'center'}}>
+                    <IconButton aria-label="add to favorites" onClick={this.onChangeFavorite}>
+                        {this.state.favorited ? <Favorited color="secondary"/> : <FavoriteIconOutlined/>}
+                    </IconButton>
+                    <Typography>
+                        {this.state.num_likes}
+                    </Typography>
+                </div>
             </CardActions>
         </Card>
         );

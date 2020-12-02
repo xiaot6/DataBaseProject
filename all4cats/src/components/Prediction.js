@@ -159,9 +159,7 @@ export default class Prediction extends Component {
         </div>
         : 
         <div> 
-          <h2 style={{marginTop:"40px"}}>
-            This is prediction.
-          </h2>
+          <h2 style={{marginTop: "50px", marginBottom: "30px", fontWeight: "normal"}} >Predict Housing Prices</h2>
           <div style={{display: 'flex',
             flexDirection: "column",
             alignItems: 'center'}}>
