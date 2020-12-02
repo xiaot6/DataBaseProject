@@ -21,6 +21,7 @@ export default class HouseCard extends Component {
     constructor(props) {
         super(props);
         this.onChangeFavorite = this.onChangeFavorite.bind(this);
+        this.updateLikes = this.updateLikes.bind(this);
         this.state = {
             user: props.user,
             houseJSON: props.houseInfo,
@@ -64,6 +65,25 @@ export default class HouseCard extends Component {
         }
     }
 
+    updateLikes() {
+        HouseDataService.updateLikeById(
+            this.state.houseJSON.house_id,
+            {
+                id: this.state.houseJSON.house_id,
+                likes: this.state.houseJSON.likes + 1,
+            }
+          )
+            .then(response => {
+              console.log(response.data);
+              this.setState({
+                num_likes: response.data.likes
+              });
+            })
+            .catch(e => {
+              console.log(e);
+            });
+    }
+
     async onChangeFavorite() {
         this.setState({
             favorited: !this.state.favorited,
@@ -75,12 +95,15 @@ export default class HouseCard extends Component {
         if (!this.state.favorited) {
             try {
                 await addFavoriteHouse(user, houseId);
+                // Add like for house with house_id
+                this.updateLikes();
             } catch (error) {
                 console.error("Error adding favorites", error);
             }
         } else {
             try {
                 await deleteFavoriteHouse(user, houseId);
+                // Delete like for house with house_id
             } catch (error) {
                 console.error("Error adding favorites", error);
             }
@@ -98,10 +121,11 @@ export default class HouseCard extends Component {
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <Typography>Company: {houseJSON.company}</Typography>
+                        <Typography>Price: ${houseJSON.price}</Typography>
                         <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: "10px"}}>
-                        <Typography>{houseJSON.num_of_bedrooms}</Typography>
-                        <HotelIcon />
-                        <Typography>{houseJSON.num_of_bathrooms}</Typography>
+                            <Typography>{houseJSON.num_of_bedrooms}</Typography>
+                            <HotelIcon />
+                            <Typography>{houseJSON.num_of_bathrooms}</Typography>
                         <BathtubIcon />
                         </div>
                         {/* <Typography></Typography> */}
@@ -110,7 +134,6 @@ export default class HouseCard extends Component {
                         <Typography>Address: {houseJSON.address}</Typography>
                         <Typography>City: {houseJSON.city}</Typography>
                         <Typography>State: {houseJSON.state}</Typography>
-                        <Typography>Price: ${houseJSON.price}</Typography>
                     </Grid>
                 </Grid>
             </CardContent>

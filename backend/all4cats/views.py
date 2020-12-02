@@ -243,7 +243,7 @@ def update_likes_by_id(request, s):
             likes_serializer.save()
             temp_value = likes_data['likes']
             with connection.cursor() as cursor:
-                cursor.execute("UPDATE all4cats_price SET likes = %s WHERE house_id = %s", [
+                cursor.execute("UPDATE all4cats_house SET likes = %s WHERE house_id = %s", [
                                temp_value, s])
             return JsonResponse(likes_serializer.data)
 

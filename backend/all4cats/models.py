@@ -56,4 +56,4 @@ class House(models.Model):
     state = models.CharField(max_length=100, blank=False, default='')
     likes = models.IntegerField(default=0)
     num_of_bedrooms = models.IntegerField(default=0)
-    num_of_bathrooms = models.IntegerField(default=0)
+    num_of_bathrooms = models.FloatField(default=0.0)
