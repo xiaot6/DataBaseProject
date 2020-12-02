@@ -1,17 +1,9 @@
 import React, { Component } from "react";
 import HouseDataService from "../services/house.service";
 import {Button, TextField, List} from '@material-ui/core'
-import {auth, addFavoriteHouse, deleteFavoriteHouse} from '../firebase';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
-import CardActions from '@material-ui/core/CardActions';
-import IconButton from '@material-ui/core/IconButton';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import HotelIcon from '@material-ui/icons/LocalHotelOutlined';
-import BathtubIcon from '@material-ui/icons/BathtubOutlined';
+import {auth, addFavoriteHouse, deleteFavoriteHouse } from '../firebase';
 import { GridList, GridListTile, Grid } from '@material-ui/core'
+import HouseCard from "./HouseCard"
 
 export default class SearchHouse extends Component {
     constructor(props) {
@@ -24,7 +16,8 @@ export default class SearchHouse extends Component {
             user: null,
             bedForSearch: '',
             priceForSearch: null,
-            houseArrayJSON: []
+            houseArrayJSON: [],
+            allLikes: null,
         };
     }
 
@@ -47,7 +40,7 @@ export default class SearchHouse extends Component {
             if (user) {
                 this.setState({user})
             } 
-        })
+        });
     }
 
     searchByBed() {
@@ -56,7 +49,6 @@ export default class SearchHouse extends Component {
             this.setState({
                 houseArrayJSON: response.data
             });
-            console.log(response.data);
             })
             .catch(e => {
             console.log(e);
@@ -102,38 +94,11 @@ export default class SearchHouse extends Component {
                             justifyContent: 'space-around',
                             overflow: 'hidden',
                             marginTop: "50px"}}>
-                    <GridList cellHeight={330} style={{width: 1000}}>
+                    <GridList cellHeight={320} style={{width: 1000}}>
                         {this.state.houseArrayJSON &&
                         this.state.houseArrayJSON.map((houseJSON, index) => (
                             <GridListTile key={index} style={{display: 'flex', justifyContent: 'center'}}>
-                                <Card style={{width: 400, height: 330}} variant='outlined'>
-                                    <CardMedia style={{height: 0,
-                                                paddingTop: '43.25%'}} 
-                                                image="https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350"/>
-                                    <CardContent style={{flexGrow: 1}}>
-                                        <Grid container spacing={2}>
-                                            <Grid item xs={6}>
-                                                <Typography>Company: {houseJSON.company}</Typography>
-                                                <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                                                <Typography>{houseJSON.number_of_rooms}</Typography>
-                                                <HotelIcon />
-                                                <Typography>{houseJSON.floor_plan}</Typography>
-                                                <BathtubIcon />
-                                                </div>
-                                                {/* <Typography></Typography> */}
-                                            </Grid>
-                                            <Grid item xs={6}>
-                                                <Typography>Address: {houseJSON.address}</Typography>
-                                                <Typography>Price: {houseJSON.price}</Typography>
-                                            </Grid>
-                                        </Grid>
-                                    </CardContent>
-                                    <CardActions disableSpacing>
-                                        <IconButton aria-label="add to favorites">
-                                            <FavoriteIcon />
-                                        </IconButton>
-                                    </CardActions>
-                                </Card>
+                                <HouseCard houseInfo = {houseJSON} user = {this.state.user}/>
                             </GridListTile>
                         ))}
                     </GridList>

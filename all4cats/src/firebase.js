@@ -52,8 +52,8 @@ export const generateUserDocument = async (user, display_email) => {
 };
 
 const getUserDocument = async uid => {
+  console.log("Inside getUserDoc");
   if (!uid) return null;
-  console.log("gere");
   try {
     const userDocument = await fb.ref(`users/${uid}`).once('value');
     console.log(userDocument.val());
@@ -122,6 +122,7 @@ export const deleteFavoriteHouse = async (user, houseId) => {
         //check if remove this child
         if(chval.houseId == houseId){
           fb.ref(`users/${user.uid}/favoriteHouse/${pkey}`).remove();
+          getUserDocument(user.uid)
           return true;
         }
 

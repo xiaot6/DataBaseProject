@@ -156,7 +156,7 @@ export default class Prediction extends Component {
         this.state.clicked ?
         <div> 
           <CAPredict>
-
+            
           </CAPredict>
           <Button onClick={() => {this.setState({clicked: false})}}>
             Back
