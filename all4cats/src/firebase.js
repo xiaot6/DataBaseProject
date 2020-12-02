@@ -107,3 +107,28 @@ export const addFavoriteLayoutAndType = async (user, bedrooms, bathrooms, lowerP
 
   return getUserDocument(user.uid);
 };
+
+export const deleteFavoriteHouse = async (user, houseId) => {
+  if (!user) {
+    return false;
+  }
+  var query = fb.ref(`users/${user.uid}/favoriteHouse`).orderByKey();
+  try {
+    await query.once("value")
+      .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var pkey = childSnapshot.key; 
+        var chval = childSnapshot.val();
+        //check if remove this child
+        if(chval.houseId == houseId){
+          fb.ref(`users/${user.uid}/favoriteHouse/${pkey}`).remove();
+          return true;
+        }
+
+      });
+    });
+  } catch (error) {
+    console.error("Error adding favorite house", error);
+  }
+  return false;
+};

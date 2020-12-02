@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import HouseDataService from "../services/house.service";
 import {Button, TextField, List} from '@material-ui/core'
-import {auth, addFavoriteHouse} from '../firebase';
+import {auth, addFavoriteHouse, deleteFavoriteHouse} from '../firebase';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import HotelIcon from '@material-ui/icons/LocalHotelOutlined';
+import BathtubIcon from '@material-ui/icons/BathtubOutlined';
 import { GridList, GridListTile, Grid } from '@material-ui/core'
 
 export default class SearchHouse extends Component {
@@ -81,6 +83,9 @@ export default class SearchHouse extends Component {
                 <Button onClick = {() => {addFavoriteHouse(this.state.user, "2333")}}>
                     Add Fav
                 </Button>
+                <Button onClick = {() => {deleteFavoriteHouse(this.state.user, "2333")}}>
+                    Delete Fav
+                </Button>
                 <form noValidate autoComplete="off" className="formStyle">
                     {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
                     <TextField id="outlined-basic1" label="Lowest Price" value={this.state.priceForSearch} onChange={this.onChangeSavePrice} variant="outlined"/>
@@ -109,8 +114,13 @@ export default class SearchHouse extends Component {
                                         <Grid container spacing={2}>
                                             <Grid item xs={6}>
                                                 <Typography>Company: {houseJSON.company}</Typography>
-                                                <Typography>Floor Plan: {houseJSON.floor_plan}</Typography>
-                                                <Typography>Number of Rooms: {houseJSON.number_of_rooms}</Typography>
+                                                <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                                                <Typography>{houseJSON.number_of_rooms}</Typography>
+                                                <HotelIcon />
+                                                <Typography>{houseJSON.floor_plan}</Typography>
+                                                <BathtubIcon />
+                                                </div>
+                                                {/* <Typography></Typography> */}
                                             </Grid>
                                             <Grid item xs={6}>
                                                 <Typography>Address: {houseJSON.address}</Typography>
