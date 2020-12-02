@@ -536,12 +536,6 @@ export default class Price extends Component {
                         </div>
                     </Grid>
                 </Grid>
-                
-                <footer>
-                    <div style={{display:"flex", justifyContent: "center", marginTop: "20vmin"}}>
-                        <p style={{fontSize: "10px"}}>All Rights Reserved @All4CatsTeam</p>
-                    </div>
-                </footer>
             </div>
         );
     }

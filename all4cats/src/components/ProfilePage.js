@@ -65,38 +65,38 @@ const ProfilePage = () => {
     window.location.reload();
   };
 
-  useEffect(async () => {
+  useEffect(() => {
+    fetchUserFavorite();
+  }, []);
+
+  const fetchUserFavorite = async () => {
     var array = null; 
     await fb.ref(`users/${user.uid}/favoriteHouse`).orderByKey().once("value")
     .then(function(snapshot) {
       array = snapshot.val();
     });
 
-    // var list = await getListOfData()
-    
-  });
-
-  function getListOfData(array) {
-    var list = [];
-
+    var listOfIds = []
     for (var i in array) {
-
       var houseID = array[i].houseId;
 
-      HouseDataService.getHouseById(houseID)
+      listOfIds = [
+        ...listOfIds,
+        houseID
+      ]
+    }
+    console.log(listOfIds);
+    
+    var resp = []
+    HouseDataService.getHouseById(listOfIds)
       .then(response => {
-        list = [
-          ...list,
-          response.data,
-        ];
-        console.log(list);
+        setHouseArray(response.data);
       })
       .catch(e => {
         console.log(e);
       });
-    }
-    return list;
   }
+
 
   return (
     <div className={classes.root}>
@@ -168,24 +168,24 @@ const ProfilePage = () => {
                 Favorite Price Range: 
               </h5>
               <Typography style={{marginBottom: "20px"}}>
-                Lower: {user.favoritePrice && user.favoritePrice.lowerPrice} ~ Upper: { user.favoritePrice && user.favoritePrice.upperPrice}
+                ${user.favoritePrice && user.favoritePrice.lowerPrice} ~ ${ user.favoritePrice && user.favoritePrice.upperPrice}
               </Typography>
             </div>
         </Card>
 
-        <Card style={{marginTop: "2rem"}} variant="outlined">
+        <Card style={{marginTop: "2rem", marginBottom: "2rem"}} variant="outlined">
             <div style={{display: 'flex', flexDirection: "column", justifyContent:"flex-start"}}>
               <h2>
                 My Favorite Houses
               </h2>
-              {/* <List component="nav">
+              <List component="nav">
                   {houseArray &&
                   houseArray.map((houseJSON, index) => (
                       <ListItem>
-                          <ListItemText>{houseJSON.house_id}</ListItemText>
+                          <ListItemText>ID: {houseJSON.house_id} Addr: {houseJSON.address}  ${houseJSON.price}</ListItemText>
                       </ListItem>
                   ))}
-              </List> */}
+              </List>
             </div>
         </Card>
       </div>

@@ -10,6 +10,7 @@ import {
   Tabs,
   Tab,
   Box,
+  Divider,
 } from '@material-ui/core'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import React from 'react';
@@ -224,6 +225,12 @@ function App() {
           </Switch>
         </div>
       </UserProvider>
+      <footer>
+          <div style={{display:"flex", justifyContent: "center", marginTop: "20vmin"}}>
+            <Divider></Divider>
+            <p style={{fontSize: "10px"}}>All Rights Reserved @All4CatsTeam</p>
+          </div>
+      </footer>
     </div>
   );
 }

@@ -198,20 +198,24 @@ def get_house_by_bedrooms(request, s):
 
 @api_view(['GET'])
 def get_house_by_id(request, s):
-    try:
-        houses = House.objects.raw(
-            'SELECT * FROM all4cats_house WHERE house_id = %s', [s])
 
-    except House.DoesNotExist:
-        return JsonResponse({'message': 'The house does not exist'}, status=status.HTTP_404_NOT_FOUND)
+    house = House.objects.filter(house_id__in=s)
+    print(house)
+    # try:
+    #     houses = House.objects.raw(
+    #         'SELECT * FROM all4cats_house WHERE house_id IN %s', [s])
+
+    # except House.DoesNotExist:
+    #     return JsonResponse({'message': 'The house does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        houses_serializer = HouseSerializer(houses, many=True)
+        houses_serializer = HouseSerializer(house, many=True)
         return JsonResponse(houses_serializer.data, safe=False)
+
 
 @api_view(['GET'])
 def get_likes_by_id(request, s):
-    
+
     if request.method == 'GET':
 
         cursor = connection.cursor()
