@@ -227,15 +227,15 @@ def get_likes_by_id(request, s):
      
 @api_view(['PUT'])
 def update_likes_by_id(request, s):
-    try:
-        likes = House.objects.raw(
-            'SELECT likes FROM all4cats_house WHERE house_id = %s', [s])
+    # try:
+    #     likes = House.objects.raw(
+    #         'SELECT likes FROM all4cats_house WHERE house_id = %s', [s])
 
-    except House.DoesNotExist:
-        return JsonResponse({'message': 'The house does not exist'}, status=status.HTTP_404_NOT_FOUND)
+    # except House.DoesNotExist:
+    #     return JsonResponse({'message': 'The house does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
-        likes = Price.objects.raw(
+        likes = House.objects.raw(
             'SELECT * FROM all4cats_house WHERE house_id = %s', [s])[0]
 
         likes_data = JSONParser().parse(request)

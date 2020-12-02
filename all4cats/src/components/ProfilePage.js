@@ -76,7 +76,7 @@ const ProfilePage = () => {
     
   });
 
-  function getListOfData() {
+  function getListOfData(array) {
     var list = [];
 
     for (var i in array) {

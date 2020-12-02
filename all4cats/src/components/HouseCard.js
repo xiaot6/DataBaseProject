@@ -22,6 +22,7 @@ export default class HouseCard extends Component {
         super(props);
         this.onChangeFavorite = this.onChangeFavorite.bind(this);
         this.updateLikes = this.updateLikes.bind(this);
+        this.deleteLikes = this.deleteLikes.bind(this);
         this.state = {
             user: props.user,
             houseJSON: props.houseInfo,
@@ -70,7 +71,7 @@ export default class HouseCard extends Component {
             this.state.houseJSON.house_id,
             {
                 id: this.state.houseJSON.house_id,
-                likes: this.state.houseJSON.likes + 1,
+                likes: this.state.num_likes + 1,
             }
           )
             .then(response => {
@@ -83,6 +84,26 @@ export default class HouseCard extends Component {
               console.log(e);
             });
     }
+
+    deleteLikes() {
+        HouseDataService.updateLikeById(
+            this.state.houseJSON.house_id,
+            {
+                id: this.state.houseJSON.house_id,
+                likes: this.state.num_likes - 1,
+            }
+          )
+            .then(response => {
+              console.log(response.data);
+              this.setState({
+                num_likes: response.data.likes
+              });
+            })
+            .catch(e => {
+              console.log(e);
+            });
+    }
+
 
     async onChangeFavorite() {
         this.setState({
@@ -104,6 +125,7 @@ export default class HouseCard extends Component {
             try {
                 await deleteFavoriteHouse(user, houseId);
                 // Delete like for house with house_id
+                this.deleteLikes();
             } catch (error) {
                 console.error("Error adding favorites", error);
             }
