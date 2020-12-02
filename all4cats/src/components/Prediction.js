@@ -8,6 +8,8 @@ import PriceDataService from "../services/price.service";
 import { Ymap } from './predictData.js';
 import Plot from 'react-plotly.js';
 import CAPredict from './States/allStates'
+// import Table from './table.js';
+
 
 
 
@@ -174,9 +176,10 @@ export default class Prediction extends Component {
                 Please use Postal Abbreviations
               </p>
               <p>
-                For instance: "CA", "IL"
+                    For instance: "CA", "IL"
               </p>
-            </div>
+                </div>
+      
           </div>
         </div> 
         }
