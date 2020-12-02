@@ -134,21 +134,28 @@ export default class HouseCard extends Component {
 
     render() {
         const houseJSON = this.state.houseJSON;
+
+        const imageList = {
+            0 : "https://i.pinimg.com/originals/38/e3/2a/38e32a1b4d5f035e3374eae559ec9771.jpg",
+            1 : "https://i.redd.it/bebvorug1h421.jpg",
+            2 : "https://cdn.trendhunterstatic.com/thumbs/pixel-house.jpeg",
+            3 : "https://arch.uic.edu/sites/arch.uic.edu/files/styles/responsive_landscape/public/lizandmorriswinter_0.jpg?itok=ZUvelJYF",
+            4 : "https://images.squarespace-cdn.com/content/5da0b945cf23393c2aa2baf7/1581541606497-IY0O8VG804N5RW5SS0R8/Low+Resolution-7915.jpg?format=1500w&content-type=image%2Fjpeg"
+        }
         return(
         <Card style={{width: "400px"}} variant='outlined'>
             <CardMedia style={{height: 0,
                         paddingTop: '43.25%'}} 
-                        image="https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350"/>
+                        image={imageList[houseJSON.house_id % 5]}/>
             <CardContent style={{flexGrow: 1}}>
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <Typography>Company: {houseJSON.company}</Typography>
-                        <Typography>Price: ${houseJSON.price}</Typography>
                         <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: "10px"}}>
                             <Typography>{houseJSON.num_of_bedrooms}</Typography>
-                            <HotelIcon />
+                            <HotelIcon style={{marginRight: "5px"}} />
                             <Typography>{houseJSON.num_of_bathrooms}</Typography>
-                        <BathtubIcon />
+                            <BathtubIcon />
                         </div>
                         {/* <Typography></Typography> */}
                     </Grid>
@@ -168,6 +175,7 @@ export default class HouseCard extends Component {
                         {this.state.num_likes}
                     </Typography>
                 </div>
+                <b style={{marginLeft: 'auto', marginRight: '25px', fontSize: "20px"}}>Price: ${houseJSON.price}</b>
             </CardActions>
         </Card>
         );
