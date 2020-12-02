@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import logo from '../assets/logo_transparent.png';
-import {Typography, Button, TextField, List, ListItem, ListItemText} from '@material-ui/core'
+import {Typography, Button, TextField, List, ListItem, ListItemText, Grid, FormControl, InputLabel} from '@material-ui/core'
 import PriceDataService from "../services/price.service";
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -372,7 +372,7 @@ export default class Price extends Component {
 	handleLocationMouseOut() {
         this.setState({ 
             pointedLocation: null,
-            stateAvgPrice: 'No data',
+            stateAvgPrice: null,
         });
 	}
 
@@ -398,114 +398,152 @@ export default class Price extends Component {
     render() {
         // const { titleForSearch, tutorials, currentTutorial, currentIndex } = this.state;
         return (
-            <div>
-                <header>
+            <div style={{marginTop: "20px"}}>
+                {/* <header>
                     <img src={logo} alt='Logo' height='200'></img>
-                </header>
-                <h4>
-                    Housing Price: CRUD
-                </h4>
-                <form noValidate autoComplete="off" className="formStyle">
-                    {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
-                    <TextField id="outlined-basic1" label="Date" value={this.state.dateForSearch} onChange={this.onChangeSaveDate} variant="outlined"/>
-                    <TextField id="outlined-basic2" label="Zip Code" value={this.state.zipForSearch} onChange={this.onChangeSaveZip} variant="outlined"/>
-                    <TextField id="outlined-basic3" label="Price" value={this.state.valueForSearch} onChange={this.onChangeSaveValue} variant="outlined"/>
-                    <TextField id="outlined-basic4" label="City" value={this.state.cityForSearch} onChange={this.onChangeSaveCity} variant="outlined"/>
-                    <TextField id="outlined-basic5" label="State" value={this.state.stateForSearch} onChange={this.onChangeSaveState} variant="outlined"/>
-                    {/* <TextField id="outlined-basic6" label="University" value={this.state.universityForSearch} onChange={this.onChangeSaveUniversity} variant="outlined"/> */}
-                    <Select
-                    value={this.state.universityForSearch}
-                    onChange={this.onChangeSaveUniversity}
-                    >
-                    {universityList.map((university) => (
-                        <MenuItem value={university}>
-                        {university}
-                        </MenuItem>
-                    ))}
-                    </Select>
-                </form>
-                <Button onClick={this.searchPriceByDateAndZip}>
-                    Search One by Date and Zipcode
-                </Button>
-                <Button onClick={this.searchPriceByDateStateCity}>
-                    Search One by DateStateCity
-                </Button>
-                <Button onClick={this.searchAllPrice}>
-                    Show All Price
-                </Button>
-                <Button onClick={this.searchStateAvgPrice}>
-                    Show State Avg_Price
-                </Button>
-                <Button onClick={this.searchUniverityPrice}>
-                    Show University Price
-                </Button>
-                <Button onClick={this.refreshList}>
-                    Refresh List
-                </Button>
-                <Button onClick={this.insertInstance}>
-                    Insert One
-                </Button>
-                <Button onClick={this.updateInstance}>
-                    Update One
-                </Button>
+                </header> */}
+                
+                <Grid container spacing={1} style={{marginBottom: "3rem"}}>
+                    <Grid item xs={9}>
+                        <div style={{ display: "flex", justifyContent: "center", height:"37rem", marginTop:"2rem", marginBottom:"2rem"}}>
+                            <SVGMap map={USA}
+                                type="link"
+                                onLocationMouseOver={this.handleLocationMouseOver}
+                                onLocationMouseOut={this.handleLocationMouseOut}
+                                onLocationClick={this.handleLocationClick}
+                                onLocationFocus={this.handleLocationFocus}
+                                onLocationBlur={this.handleLocationBlur} />
+                        </div>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <div style={{ marginTop: "250px", display: "flex", flexDirection: 'column', alignItems: "flex-start" }}>
+                            <Typography>
+                                    Region: {this.state.pointedLocation}
+                            </Typography>
+                            <Typography>
+                                    Average Price: {this.state.stateAvgPrice == -1 ? "No Data" : this.state.stateAvgPrice}
+                            </Typography>
+                        </div>
+                    </Grid>
+                </Grid>
 
-                <Button onClick={this.deletePriceByDateAndZip}>
-                    Delete One
-                </Button>
+                {/* ------------- */}
+                <Grid container spacing={1} style={{marginBottom: "2rem"}}>
+                    <Grid item xs={8}>
+                        <div style={{display: "flex", justifyContent: 'center'}}>
+                            <Grid container spacing={1} style={{marginBottom: "2rem", width: "40rem"}}>
+                                <Grid item xs={6}>
+                                    <div style={{display: 'flex',
+                                                    flexDirection: "column",
+                                                    alignItems: 'center'}}>
+                                        <TextField style={{ marginBottom: "20px"}} id="outlined-basic1" label="Date" value={this.state.dateForSearch} onChange={this.onChangeSaveDate} variant="outlined"/>
+                                        <TextField style={{ marginBottom: "20px"}} id="outlined-basic2" label="Zip Code" value={this.state.zipForSearch} onChange={this.onChangeSaveZip} variant="outlined"/>
+                                        <TextField style={{ marginBottom: "20px"}} id="outlined-basic3" label="Price" value={this.state.valueForSearch} onChange={this.onChangeSaveValue} variant="outlined"/>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <div style={{display: 'flex',
+                                                    flexDirection: "column",
+                                                    alignItems: 'center'}}>
+                                        <TextField style={{ marginBottom: "20px"}} id="outlined-basic4" label="City" value={this.state.cityForSearch} onChange={this.onChangeSaveCity} variant="outlined"/>
+                                        <TextField style={{ marginBottom: "20px"}} id="outlined-basic5" label="State" value={this.state.stateForSearch} onChange={this.onChangeSaveState} variant="outlined"/>
+                                        <FormControl style={{margin: "10px", minWidth: 160}}>
+                                            <InputLabel>Select University</InputLabel>
+                                            <Select
+                                                value={this.state.universityForSearch}
+                                                onChange={this.onChangeSaveUniversity}
+                                                >
+                                                {universityList.map((university) => (
+                                                    <MenuItem value={university}>
+                                                    {university}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                        
+                                    </div>
+                                </Grid> 
+                            </Grid>
+                        </div>
+                        <div style={{display: "flex", justifyContent: 'center'}}>
+                            <Grid container spacing={1} style={{marginBottom: "2rem", width: "40rem"}}>
+                                <Grid item xs={6}>
+                                    <div style={{display: 'flex',
+                                                    flexDirection: "column",
+                                                    alignItems: 'center'}}>
+                                        <Button style={{width: "30ch", marginBottom: "20px"}} variant="outlined" color="primary" onClick={this.searchPriceByDateAndZip}>
+                                            Search One by Date and Zipcode
+                                        </Button>
+                                        <Button style={{width: "30ch", marginBottom: "20px"}} variant="outlined" color="primary" onClick={this.searchUniverityPrice}>
+                                            Show University Price
+                                        </Button>
+                                        <Button style={{width: "30ch", marginBottom: "20px"}} variant="outlined" color="primary" onClick={this.searchAllPrice}>
+                                            Show All Price
+                                        </Button>
+                                        <Button style={{width: "30ch", marginBottom: "20px"}} variant="outlined" color="primary" onClick={this.searchStateAvgPrice}>
+                                            Show State Avg_Price
+                                        </Button>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <div style={{display: 'flex',
+                                                    flexDirection: "column",
+                                                    alignItems: 'center'}}>
+                                        <Button style={{width: "30ch", marginBottom: "20px"}} variant="outlined" color="primary" onClick={this.searchPriceByDateStateCity}>
+                                            Search One by DateStateCity
+                                        </Button>
+                                        <Button style={{width: "30ch", marginBottom: "20px"}} variant="outlined" color="primary" onClick={this.refreshList}>
+                                            Refresh List
+                                        </Button>
+                                        <Button style={{width: "30ch", marginBottom: "20px"}} variant="outlined" color="primary" onClick={this.insertInstance}>
+                                            Insert One
+                                        </Button>
+                                        <Button style={{width: "30ch", marginBottom: "20px"}} variant="outlined" color="primary" onClick={this.updateInstance}>
+                                            Update One
+                                        </Button>
+                                    </div>
+                                </Grid>
+                            </Grid>
+                        </div>
+                        <div style={{display: 'flex',
+                                    flexDirection: "column",
+                                    alignItems: 'center'}}>
+                            <Button style={{width: "30ch", marginBottom: "20px"}} variant="outlined" color="secondary" onClick={this.deletePriceByDateAndZip}>
+                                Delete One
+                            </Button>
 
-                <Button onClick={this.deleteAllPrice}>
-                    Delete All
-                </Button>
-
-                <div style={{display:"flex", justifyContent: "center"}}>
-                    <div style={{width: 380}}>
-                        <List component="nav">
-                            {this.state.priceArrayJSON &&
-                            this.state.priceArrayJSON.map((priceJSON, index) => (
-                                <ListItem button
-                                    onClick={() => {}}
-                                    key={index}
-                                >
-                                    <ListItemText>Date: {priceJSON.date}, Zip: {priceJSON.zipcode}, Price: {priceJSON.value}, City: {priceJSON.city}, State: {priceJSON.state}</ListItemText>
-                                </ListItem>
-                            ))}
-                        </List>
-                    </div>
-                </div>
-                <div style={{ display: "flex", justifyContent: "center", height:"43rem", marginBottom:"2rem"}}>
-                    <SVGMap map={USA}
-                        type="link"
-						onLocationMouseOver={this.handleLocationMouseOver}
-						onLocationMouseOut={this.handleLocationMouseOut}
-						onLocationClick={this.handleLocationClick}
-						onLocationFocus={this.handleLocationFocus}
-						onLocationBlur={this.handleLocationBlur} />
-                </div>
-                <Typography className="examples__block__map__tooltip" style={this.state.tooltipStyle}>
-						Region: {this.state.pointedLocation}
-				</Typography>
-                <Typography>
-                        Average Price: {this.state.stateAvgPrice}
-                </Typography>
-                <Typography class = "welcome">
-                    CS 411 Final Project - All4Cats.
-                </Typography>
-                <a
-                    className="App-link"
-                    href="https://wiki.illinois.edu/wiki/display/CS411AAFA20/All4Cat"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >
-                        Our Homepage
-                </a>
+                            <Button style={{width: "30ch", marginBottom: "20px"}} variant="outlined" color="secondary" onClick={this.deleteAllPrice}>
+                                Delete All
+                            </Button>
+                        </div>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <div style={{display:"flex", flexDirection: 'column', justifyContent: "center"}}>
+                            <div style={{width: 330}}>
+                                <p>Results:</p>
+                                <List component="nav">
+                                    {this.state.priceArrayJSON &&
+                                    this.state.priceArrayJSON.map((priceJSON, index) => (
+                                        <ListItem button
+                                            onClick={() => {}}
+                                            key={index}
+                                        >
+                                            <ListItemText>Date: {priceJSON.date}, Zip: {priceJSON.zipcode}, Price: {priceJSON.value}, City: {priceJSON.city}, State: {priceJSON.state}</ListItemText>
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </div>
+                        </div>
+                    </Grid>
+                </Grid>
+                
                 <footer>
                     <div style={{display:"flex", justifyContent: "center", marginTop: "20vmin"}}>
                         <p style={{fontSize: "10px"}}>All Rights Reserved @All4CatsTeam</p>
                     </div>
                 </footer>
             </div>
-        )
-
+        );
     }
 }
  

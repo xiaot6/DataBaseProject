@@ -75,7 +75,7 @@ export default class SearchHouse extends Component {
                     <div style={{display: 'flex',
                                 flexDirection: "column",
                                 alignItems: 'center'}}>
-                        <h2 style={{marginBottom: "30px"}} >Search your favorite houses</h2>
+                        <h2 style={{marginTop: "50px", marginBottom: "30px", fontWeight: "normal"}} >Search For Your Favorite House</h2>
                         <TextField style={{width: "25ch", marginTop: "20px"}} id="outlined-basic1" label="Lowest Price" value={this.state.priceForSearch} onChange={this.onChangeSavePrice} variant="outlined"/>
                         <TextField style={{width: "25ch",marginTop: "20px"}} id="outlined-basic2" label="Number of Bedrooms" value={this.state.bedForSearch} onChange={this.onChangeSaveBed} variant="outlined"/>
                         <Button style={{width: "30ch", marginTop: "20px"}} onClick={this.searchByPrice} variant='outlined'>
@@ -91,7 +91,7 @@ export default class SearchHouse extends Component {
                             justifyContent: 'space-around',
                             overflow: 'hidden',
                             marginTop: "50px"}}>
-                    <GridList cellHeight={370} style={{width: 1000, marginBottom: "100px"}}>
+                    <GridList cellHeight={380} style={{width: 1000, marginBottom: "100px"}}>
                         {this.state.houseArrayJSON &&
                         this.state.houseArrayJSON.map((houseJSON, index) => (
                             <GridListTile key={index} style={{display: 'flex', justifyContent: 'center'}}>

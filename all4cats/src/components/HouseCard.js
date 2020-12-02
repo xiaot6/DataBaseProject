@@ -78,7 +78,7 @@ export default class HouseCard extends Component {
     render() {
         const houseJSON = this.state.houseJSON;
         return(
-        <Card style={{width: "400px", marginTop: "20px"}} variant='outlined'>
+        <Card style={{width: "400px"}} variant='outlined'>
             <CardMedia style={{height: 0,
                         paddingTop: '43.25%'}} 
                         image="https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350"/>
@@ -94,9 +94,9 @@ export default class HouseCard extends Component {
                         </div>
                         {/* <Typography></Typography> */}
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={6} style={{display: 'flex', flexDirection: 'column', alignItems: 'left'}}>
                         <Typography>Address: {houseJSON.address}</Typography>
-                        <Typography>Price: {houseJSON.price}</Typography>
+                        <Typography>Price: ${houseJSON.price}</Typography>
                     </Grid>
                 </Grid>
             </CardContent>

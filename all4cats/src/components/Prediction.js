@@ -147,40 +147,36 @@ export default class Prediction extends Component {
   render() {
     return (
       <div>
-
-        
         {
           this.state.clicked ?
           <div> 
           <CAPredict  dataFromParent = {this.state.stateForPredict} yFromParent = {this.state.y_ax}>
 
           </CAPredict>
-          <Button onClick={() => {this.setState({clicked: false})}}>
+          <Button style={{marginTop: "20px"}} variant="contained" color='primary' onClick={() => {this.setState({clicked: false})}}>
             Back
           </Button>
         </div>
         : 
-            <div> 
-            <h2>
+        <div> 
+          <h2 style={{marginTop:"40px"}}>
             This is prediction.
-        </h2>
-          <form noValidate autoComplete="off" className="formStyle">
-            {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
-            <TextField id="outlined-basic" label="State" value={this.state.stateForPredict} onChange={this.onChangeSaveState} variant="outlined"/>
-          </form>
-          <Button onClick={this.predictThisState}>
-            Predict the state
-          </Button>
-          <div>
-            <p>
-              Please use Postal Abbreviations
-            </p>
-            <p>
-              For instance: "CA", "IL", "NY", "TX","FL", "PA", "NJ", "GA", "MI", "NC", "OH"
-            </p>
-            <p>
-              Or you can click on the map below
-            </p>
+          </h2>
+          <div style={{display: 'flex',
+            flexDirection: "column",
+            alignItems: 'center'}}>
+            <TextField style={{marginBottom: "20px"}} id="outlined-basic" label="State" value={this.state.stateForPredict} onChange={this.onChangeSaveState} variant="outlined"/>
+            <Button onClick={this.predictThisState} color="primary" variant="outlined">
+              Predict the state
+            </Button>
+            <div style={{marginTop: '20px'}}>
+              <p>
+                Please use Postal Abbreviations
+              </p>
+              <p>
+                For instance: "CA", "IL"
+              </p>
+            </div>
           </div>
         </div> 
         }

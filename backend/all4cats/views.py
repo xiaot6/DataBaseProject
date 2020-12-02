@@ -147,8 +147,12 @@ def get_state_avg_price(request, s):
         cursor = connection.cursor()
         cursor.execute(
             'SELECT avg(value) as value FROM all4cats_price GROUP BY state HAVING state = %s', [s])
-        avg_price = cursor.fetchone()[0]
-        print(avg_price)
+        k = cursor.fetchone()
+        if (k):
+            avg_price = k[0]
+        else:
+            avg_price = -1
+
         # prices_serializer = PriceSerializer(avg_price)
         return JsonResponse({'value': avg_price}, safe=False)
 
