@@ -30,23 +30,25 @@ export default class HouseCard extends Component {
         var houseID = this.state.houseJSON.house_id;
         var favorited = false;
         var user = this.state.user;
-        await fb.ref(`users/${user.uid}/favoriteHouse`).orderByKey().once("value")
-        .then(function(snapshot) {
-            var array = snapshot.val();
-            for (var i in array) {
-                var value = array[i]
-                if (value.houseId == houseID) {
-                    console.log(houseID);
-                    favorited = true;
-                    break;
+        if (user) {
+            await fb.ref(`users/${user.uid}/favoriteHouse`).orderByKey().once("value")
+            .then(function(snapshot) {
+                var array = snapshot.val();
+                for (var i in array) {
+                    var value = array[i]
+                    if (value.houseId == houseID) {
+                        console.log(houseID);
+                        favorited = true;
+                        break;
+                    }
                 }
-            }
-        });
-        console.log(favorited);
-        if (favorited) {
-            this.setState({
-                favorited: true,
             });
+            console.log(favorited);
+            if (favorited) {
+                this.setState({
+                    favorited: true,
+                });
+            }
         }
     }
 
@@ -76,7 +78,7 @@ export default class HouseCard extends Component {
     render() {
         const houseJSON = this.state.houseJSON;
         return(
-        <Card style={{width: "400px", height: "320px"}} variant='outlined'>
+        <Card style={{width: "400px", height: "325px"}} variant='outlined'>
             <CardMedia style={{height: 0,
                         paddingTop: '43.25%'}} 
                         image="https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350"/>
@@ -84,7 +86,7 @@ export default class HouseCard extends Component {
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <Typography>Company: {houseJSON.company}</Typography>
-                        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: "10px"}}>
                         <Typography>{houseJSON.number_of_rooms}</Typography>
                         <HotelIcon />
                         <Typography>{houseJSON.floor_plan}</Typography>

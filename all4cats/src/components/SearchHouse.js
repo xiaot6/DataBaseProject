@@ -70,31 +70,28 @@ export default class SearchHouse extends Component {
 
     render() {
         return(
-            <div>
-                <h2>Search your favorite houses</h2>
-                <Button onClick = {() => {addFavoriteHouse(this.state.user, "2333")}}>
-                    Add Fav
-                </Button>
-                <Button onClick = {() => {deleteFavoriteHouse(this.state.user, "2333")}}>
-                    Delete Fav
-                </Button>
-                <form noValidate autoComplete="off" className="formStyle">
-                    {/* listening for title in value, once change call onChange function to temporarily hold the title, until submission */}
-                    <TextField id="outlined-basic1" label="Lowest Price" value={this.state.priceForSearch} onChange={this.onChangeSavePrice} variant="outlined"/>
-                    <TextField id="outlined-basic2" label="Number of Bedrooms" value={this.state.bedForSearch} onChange={this.onChangeSaveBed} variant="outlined"/>
-                </form>
-                <Button onClick={this.searchByPrice}>
-                    Search By Price
-                </Button>
-                <Button onClick={this.searchByBed}>
-                    Search By Number of Bedrooms
-                </Button>
+            <div> 
+                <div style={{display:"flex", justifyContent: "center"}}>
+                    <div style={{display: 'flex',
+                                flexDirection: "column",
+                                alignItems: 'center'}}>
+                        <h2 style={{marginBottom: "30px"}} >Search your favorite houses</h2>
+                        <TextField style={{width: "25ch", marginTop: "20px"}} id="outlined-basic1" label="Lowest Price" value={this.state.priceForSearch} onChange={this.onChangeSavePrice} variant="outlined"/>
+                        <TextField style={{width: "25ch",marginTop: "20px"}} id="outlined-basic2" label="Number of Bedrooms" value={this.state.bedForSearch} onChange={this.onChangeSaveBed} variant="outlined"/>
+                        <Button style={{width: "30ch", marginTop: "20px"}} onClick={this.searchByPrice} variant='outlined'>
+                            Search By Price
+                        </Button>
+                        <Button style={{width: "30ch", marginTop: "20px"}} onClick={this.searchByBed} variant='outlined'>
+                            Search By Number of Bedrooms
+                        </Button>
+                    </div>
+                </div>
                 <div style={{display: 'flex',
                             flexWrap: 'wrap',
                             justifyContent: 'space-around',
                             overflow: 'hidden',
                             marginTop: "50px"}}>
-                    <GridList cellHeight={320} style={{width: 1000}}>
+                    <GridList cellHeight={325} style={{width: 1000, marginBottom: "100px"}}>
                         {this.state.houseArrayJSON &&
                         this.state.houseArrayJSON.map((houseJSON, index) => (
                             <GridListTile key={index} style={{display: 'flex', justifyContent: 'center'}}>
