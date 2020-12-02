@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Typography, Button, TextField, List, ListItem, ListItemText } from '@material-ui/core'
+import { Typography, Button, TextField, List, ListItem, ListItemText,Grid} from '@material-ui/core'
 import ReactDOM from "react-dom";
 import USA from "@svg-maps/usa";
 import { SVGMap } from "react-svg-map";
@@ -8,7 +8,7 @@ import PriceDataService from "../services/price.service";
 import { Ymap } from './predictData.js';
 import Plot from 'react-plotly.js';
 import CAPredict from './States/allStates'
-// import Table from './table.js';
+import Table from './table.js';
 
 
 
@@ -117,9 +117,6 @@ export default class Prediction extends Component {
   
   predictThisState(event) {
     console.log("clicked search");
-    // const clickedLocation = getLocationName(event);
-		// const clickedLocationId = getLocationId(event);
-    // this.setState({ clickedLocation: clickedLocation });
     this.setState({
       clicked: true
     });
@@ -133,15 +130,9 @@ export default class Prediction extends Component {
         this.setState({
           stateForPredict: state
         });
-    // if (Ymap.has(state.toUpperCase())) {
       this.setState({
         y_ax: Ymap[state.toUpperCase()]
       });
-    // } else {
-    //   this.setState({
-    //     y_ax: Ymap["CA"]
-    //   });
-    // }
  
   } 
 
@@ -160,28 +151,58 @@ export default class Prediction extends Component {
           </Button>
         </div>
         : 
-        <div> 
-          <h2 style={{marginTop:"40px"}}>
-            This is prediction.
-          </h2>
-          <div style={{display: 'flex',
-            flexDirection: "column",
-            alignItems: 'center'}}>
-            <TextField style={{marginBottom: "20px"}} id="outlined-basic" label="State" value={this.state.stateForPredict} onChange={this.onChangeSaveState} variant="outlined"/>
-            <Button onClick={this.predictThisState} color="primary" variant="outlined">
-              Predict the state
-            </Button>
-            <div style={{marginTop: '20px'}}>
-              <p>
-                Please use Postal Abbreviations
-              </p>
-              <p>
-                    For instance: "CA", "IL"
-              </p>
+            <div>
+              
+                <h2 style={{marginTop:"40px"}}>
+                  This is prediction.
+                </h2>
+                <div style={{display: 'flex',
+                  flexDirection: "column",
+                  alignItems: 'center'}}>
+                  <TextField style={{marginBottom: "20px"}} id="outlined-basic" label="State abbr." value={this.state.stateForPredict} onChange={this.onChangeSaveState} variant="outlined"/>
+                  <Button onClick={this.predictThisState} color="primary" variant="outlined">
+                    Predict the state
+                  </Button>
+                <div style={{marginTop: '20px'}}>
+                      <p>
+                        Please use Postal Abbreviations, for instance: "CA", "IL"
+                      </p>
+                      
+                      <p>
+                            Or you can click on the map below
+                      </p>
                 </div>
+            </div>
+                    
+      
+              <Grid container spacing={1} style={{ marginBottom: "3rem" }}>
+              <Grid item xs={6} spacing={2}>
+                      <div style={{marginTop: '50px'}}>
+                          <SVGMap map={USA}
+                              type="link"
+                              onLocationMouseOver={this.handleLocationMouseOver}
+                              onLocationMouseOut={this.handleLocationMouseOut}
+                              onLocationClick={this.handleLocationClick}
+                              onLocationFocus={this.handleLocationFocus}
+                              onLocationBlur={this.handleLocationBlur} />
+                        </div>
+                    </Grid>
+                <Grid item xs={5} spacing={1}>
+                  <div style={{ marginTop: '50px' }}>
+                      <p>
+                            Not sure state's abbreviations? Check our table :)
+                      </p>
+                      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    
+                      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+                    <div id="root"></div>
+                    <Table />
+                    </div>
+                </Grid>
+              </Grid>
       
           </div>
-        </div> 
+        
         }
       </div>
     )
